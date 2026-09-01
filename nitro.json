@@ -1,0 +1,23 @@
+{
+  "cxxNamespace": ["obitrain_reactnativeimage"],
+  "ios": {
+    "iosModuleName": "ReactNativeImage"
+  },
+  "android": {
+    "androidNamespace": ["obitrain","reactnativeimage"],
+    "androidCxxLibName": "obitrain_reactnativeimage"
+  },
+  "autolinking": {
+    "ReactNativeImage": {
+      "ios": {
+        "language": "swift",
+        "implementationClassName": "HybridReactNativeImage"
+      },
+      "android": {
+        "language": "kotlin",
+        "implementationClassName": "HybridReactNativeImage"
+      }
+    }
+  },
+  "ignorePaths": ["node_modules"]
+}
