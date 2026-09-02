@@ -1,6 +1,6 @@
 {
   "name": "@obitrain/react-native-image",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Fast image component for React Native: Nitro view with Kingfisher (iOS) and Coil 3 (Android), decode-to-size, FastImage-compatible API",
   "main": "./lib/module/index.js",
   "types": "./lib/typescript/src/index.d.ts",

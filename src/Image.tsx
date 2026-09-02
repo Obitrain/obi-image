@@ -32,13 +32,22 @@ export interface ImageProps extends Omit<ViewProps, 'style'> {
 const SCHEME = /^[a-z][a-z0-9+.-]*:\/\//i;
 
 /** Numeric width/height from the style, if both are literal numbers (lets us skip the onLayout round-trip). */
-function sizeFromStyle(style: StyleProp<ViewStyle>): { w: number; h: number } | null {
-  const flat = StyleSheet.flatten(style) as { width?: unknown; height?: unknown } | undefined;
-  const w = flat?.width, h = flat?.height;
-  return typeof w === 'number' && typeof h === 'number' && w > 0 && h > 0 ? { w, h } : null;
+function sizeFromStyle(
+  style: StyleProp<ViewStyle>
+): { w: number; h: number } | null {
+  const flat = StyleSheet.flatten(style) as
+    { width?: unknown; height?: unknown } | undefined;
+  const w = flat?.width,
+    h = flat?.height;
+  return typeof w === 'number' && typeof h === 'number' && w > 0 && h > 0
+    ? { w, h }
+    : null;
 }
 
-function resolveSource(source: ImageSource): { uri?: string; resource?: string } {
+function resolveSource(source: ImageSource): {
+  uri?: string;
+  resource?: string;
+} {
   if (typeof source === 'number') {
     const uri = RNImage.resolveAssetSource(source)?.uri;
     if (!uri) return {};
@@ -66,7 +75,9 @@ function ImageImpl({
       onLayoutProp?.(e);
       if (styleSize) return; // size already known from style: no state round-trip, no second render
       const { width, height } = e.nativeEvent.layout;
-      setLayoutSize((s) => (s.w === width && s.h === height ? s : { w: width, h: height }));
+      setLayoutSize((s) =>
+        s.w === width && s.h === height ? s : { w: width, h: height }
+      );
     },
     [onLayoutProp, styleSize]
   );
