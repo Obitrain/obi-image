@@ -107,14 +107,12 @@ overlay, `onError`, prefetch and a 200-row recycling list.
 ## Releasing
 
 ```bash
-V=0.1.2 && yarn version "$V" && yarn nitrogen && yarn typecheck && yarn lint \
-&& git add -A && git commit -m "chore: release v$V" && git tag -a "v$V" -m "v$V" && git push origin main "v$V" \
-&& yarn pack --out "/tmp/obitrain-react-native-image-$V.tgz" \
-&& gh release create "v$V" "/tmp/obitrain-react-native-image-$V.tgz" --title "v$V" --generate-notes \
-&& npm publish
+scripts/release.sh 0.1.2
 ```
 
-`publishConfig` already sets public access and the npm registry; add `--otp=<code>` if your npm account requires 2FA.
+Bumps `package.json`, regenerates and commits the Nitro code, runs the checks, tags `v0.1.2` and pushes. The
+`publish.yml` workflow then creates the GitHub release (with the tarball) and publishes to npm through
+[trusted publishing](https://docs.npmjs.com/trusted-publishers) — no token to manage.
 
 ## License
 
