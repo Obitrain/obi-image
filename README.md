@@ -21,7 +21,7 @@ The package is distributed from this repository (private GitHub), not from npm:
 
 ```jsonc
 // package.json
-"@obitrain/react-native-image": "Andarius/obitrain-image#v0.1.0"
+"@obitrain/react-native-image": "Andarius/obitrain-image#v0.1.1"
 ```
 
 `yarn install` clones the tag, runs `prepack` (`bob build`) and packs `src`, `lib`, `ios`, `android` and the committed
