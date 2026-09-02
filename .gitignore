@@ -83,4 +83,8 @@ ios/generated
 android/generated
 
 # React Native Nitro Modules
-nitrogen/
+nitrogen/*
+!nitrogen/generated/
+
+# Local scratch artifacts (reports, previews)
+.scratch/

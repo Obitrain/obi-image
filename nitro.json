@@ -1,23 +1,40 @@
 {
-  "cxxNamespace": ["obitrain_reactnativeimage"],
+  "cxxNamespace": [
+    "obitrain_reactnativeimage"
+  ],
   "ios": {
     "iosModuleName": "ReactNativeImage"
   },
   "android": {
-    "androidNamespace": ["obitrain","reactnativeimage"],
+    "androidNamespace": [
+      "obitrain",
+      "reactnativeimage"
+    ],
     "androidCxxLibName": "obitrain_reactnativeimage"
   },
   "autolinking": {
-    "ReactNativeImage": {
+    "ObitrainImageView": {
       "ios": {
         "language": "swift",
-        "implementationClassName": "HybridReactNativeImage"
+        "implementationClassName": "HybridImageView"
       },
       "android": {
         "language": "kotlin",
-        "implementationClassName": "HybridReactNativeImage"
+        "implementationClassName": "HybridImageView"
+      }
+    },
+    "ImagePrefetcher": {
+      "ios": {
+        "language": "swift",
+        "implementationClassName": "HybridImagePrefetcher"
+      },
+      "android": {
+        "language": "kotlin",
+        "implementationClassName": "HybridImagePrefetcher"
       }
     }
   },
-  "ignorePaths": ["node_modules"]
+  "ignorePaths": [
+    "node_modules"
+  ]
 }

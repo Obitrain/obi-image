@@ -14,6 +14,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
   ) -> Bool {
+    // Bench fairness: RN core <Image> relies on NSURLCache; iOS's default is tiny (same bump as the prior obiapp study).
+    URLCache.shared = URLCache(memoryCapacity: 32 << 20, diskCapacity: 256 << 20, directory: nil)
     let delegate = ReactNativeDelegate()
     let factory = RCTReactNativeFactory(delegate: delegate)
     delegate.dependencyProvider = RCTAppDependencyProvider()
@@ -40,7 +42,10 @@ class ReactNativeDelegate: RCTDefaultReactNativeFactoryDelegate {
 
   override func bundleURL() -> URL? {
 #if DEBUG
-    RCTBundleURLProvider.sharedSettings().jsBundleURL(forBundleRoot: "index")
+    // Metro for this example runs on 8083 (8081 is often taken by obiapp's Metro).
+    let settings = RCTBundleURLProvider.sharedSettings()
+    if settings.jsLocation?.isEmpty ?? true { settings.jsLocation = "localhost:8083" }
+    return settings.jsBundleURL(forBundleRoot: "index")
 #else
     Bundle.main.url(forResource: "main", withExtension: "jsbundle")
 #endif

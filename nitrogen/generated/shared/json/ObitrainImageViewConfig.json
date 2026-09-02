@@ -1,0 +1,17 @@
+{
+  "uiViewClassName": "ObitrainImageView",
+  "supportsRawText": false,
+  "bubblingEventTypes": {},
+  "directEventTypes": {},
+  "validAttributes": {
+    "uri": true,
+    "resource": true,
+    "resizeMode": true,
+    "tintColor": true,
+    "decodeWidth": true,
+    "decodeHeight": true,
+    "recyclingKey": true,
+    "onError": true,
+    "hybridRef": true
+  }
+}

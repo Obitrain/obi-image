@@ -6,7 +6,7 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.module.model.ReactModuleInfoProvider
 import com.facebook.react.uimanager.ViewManager
 
-import com.margelo.nitro.obitrain.reactnativeimage.views.HybridReactNativeImageManager
+import com.margelo.nitro.obitrain.reactnativeimage.views.HybridObitrainImageViewManager
 
 class ReactNativeImagePackage : BaseReactPackage() {
     override fun getModule(name: String, reactContext: ReactApplicationContext): NativeModule? {
@@ -18,7 +18,7 @@ class ReactNativeImagePackage : BaseReactPackage() {
     }
 
     override fun createViewManagers(reactContext: ReactApplicationContext): List<ViewManager<*, *>> {
-        return listOf(HybridReactNativeImageManager())
+        return listOf(HybridObitrainImageViewManager())
     }
 
     companion object {

@@ -37,9 +37,10 @@
     "example": "yarn workspace @obitrain/react-native-image-example",
     "clean": "del-cli android/build example/android/build example/android/app/build example/ios/build lib",
     "prepare": "bob build",
-    "nitrogen": "nitrogen",
+    "nitrogen": "nitrogen && node scripts/patch-nitrogen.mjs",
     "typecheck": "tsc",
-    "lint": "eslint \"**/*.{js,ts,tsx}\""
+    "lint": "eslint \"**/*.{js,ts,tsx}\"",
+    "prepack": "bob build"
   },
   "keywords": [
     "react-native",
@@ -48,14 +49,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://gitlab.com/obitrain/obitrain-image.git"
+    "url": "git+https://github.com/Andarius/obitrain-image.git"
   },
   "author": "Julien Brayere <julien.brayere@obitrain.com> (https://obitrain.com)",
   "license": "MIT",
   "bugs": {
-    "url": "https://gitlab.com/obitrain/obitrain-image/issues"
+    "url": "https://github.com/Andarius/obitrain-image/issues"
   },
-  "homepage": "https://gitlab.com/obitrain/obitrain-image#readme",
+  "homepage": "https://github.com/Andarius/obitrain-image#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
@@ -71,19 +72,19 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-ft-flow": "^3.0.11",
     "eslint-plugin-prettier": "^5.5.6",
-    "nitrogen": "^0.37.1",
+    "nitrogen": "0.36.5",
     "prettier": "^3.8.3",
     "react": "19.2.3",
     "react-native": "0.87.1",
     "react-native-builder-bob": "^0.43.0",
-    "react-native-nitro-modules": "^0.37.1",
+    "react-native-nitro-modules": "0.36.5",
     "turbo": "^2.9.16",
     "typescript": "^6.0.3"
   },
   "peerDependencies": {
     "react": "*",
     "react-native": "*",
-    "react-native-nitro-modules": "^0.37.1"
+    "react-native-nitro-modules": ">=0.35.0 <0.37.0"
   },
   "workspaces": [
     "example"

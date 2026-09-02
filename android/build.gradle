@@ -1,8 +1,9 @@
 buildscript {
   ext.ReactNativeImage = [
-    kotlinVersion: "2.0.21",
+    kotlinVersion: "2.2.0",
     minSdkVersion: 24,
-    compileSdkVersion: 36
+    compileSdkVersion: 37,
+    ndkVersion: "27.1.12297006"
   ]
 
   ext.getExtOrDefault = { prop ->
@@ -36,10 +37,18 @@ apply from: '../nitrogen/generated/android/obitrain_reactnativeimage+autolinking
 
 apply plugin: "com.facebook.react"
 
+react {
+  // Only our own JS: hoisted example deps (e.g. FastImage's *NativeComponent spec) must not be codegen'd into this lib.
+  jsRootDir = file("../src")
+}
+
 android {
   namespace "com.margelo.nitro.obitrain.reactnativeimage"
 
   compileSdkVersion getExtOrDefault("compileSdkVersion")
+  // Must match the app's NDK: libc++_shared.so is packaged from react-android/fbjni (NDK 27); a newer NDK here
+  // emits libc++ symbols (e.g. __cxa_init_primary_exception) that library lacks → dlopen fails in release.
+  ndkVersion getExtOrDefault("ndkVersion")
 
   defaultConfig {
     minSdkVersion getExtOrDefault("minSdkVersion")
@@ -106,7 +115,13 @@ android {
   }
 }
 
+def coilVersion = "3.4.0" // newest Coil built with Kotlin <= 2.3 (readable by the app's Kotlin 2.2)
+
 dependencies {
   implementation "com.facebook.react:react-android"
   implementation project(":react-native-nitro-modules")
+  implementation "androidx.appcompat:appcompat:1.7.0"
+  implementation "io.coil-kt.coil3:coil-core:$coilVersion"
+  implementation "io.coil-kt.coil3:coil-network-okhttp:$coilVersion"
+  implementation "io.coil-kt.coil3:coil-gif:$coilVersion"
 }
