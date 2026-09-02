@@ -49,14 +49,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Andarius/obitrain-image.git"
+    "url": "git+https://github.com/Obitrain/obi-image.git"
   },
   "author": "Julien Brayere <julien.brayere@obitrain.com> (https://obitrain.com)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Andarius/obitrain-image/issues"
+    "url": "https://github.com/Obitrain/obi-image/issues"
   },
-  "homepage": "https://github.com/Andarius/obitrain-image#readme",
+  "homepage": "https://github.com/Obitrain/obi-image#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },

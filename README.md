@@ -21,13 +21,13 @@ The package is distributed from this repository (private GitHub), not from npm:
 
 ```jsonc
 // package.json
-"@obitrain/react-native-image": "Andarius/obitrain-image#v0.1.1"
+"@obitrain/react-native-image": "Obitrain/obi-image#v0.1.1"
 ```
 
 `yarn install` clones the tag, runs `prepack` (`bob build`) and packs `src`, `lib`, `ios`, `android` and the committed
 `nitrogen/generated` code. Then `pod install` on iOS; Android autolinks. Kingfisher (`~> 8.12`) and Coil (`3.4.0`)
 are pulled in by the podspec / `build.gradle`. A release also ships the npm tarball as an asset:
-https://github.com/Andarius/obitrain-image/releases.
+https://github.com/Obitrain/obi-image/releases.
 
 ## Usage
 
@@ -121,4 +121,4 @@ yarn pack --out /tmp/obitrain-react-native-image-X.Y.Z.tgz
 gh release create vX.Y.Z /tmp/obitrain-react-native-image-X.Y.Z.tgz --title vX.Y.Z --generate-notes
 ```
 
-Consumers pin the tag: `"@obitrain/react-native-image": "Andarius/obitrain-image#vX.Y.Z"`.
+Consumers pin the tag: `"@obitrain/react-native-image": "Obitrain/obi-image#vX.Y.Z"`.
