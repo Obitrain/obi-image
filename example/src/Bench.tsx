@@ -20,7 +20,7 @@ export function Bench({ variant, mode, run, onBack }: { variant: BenchVariant; m
     if (variant === 'rn')
       return <RNImage source={{ uri }} resizeMode="cover" style={imageStyle} />;
     if (variant === 'fast')
-      // FastImage 8.13 types reference RN style types removed in 0.87 (types-only; obiapp patches this).
+      // FastImage 8.13 types reference RN style types removed in 0.87 (types-only).
       return <FastImage source={{ uri }} resizeMode={FastImage.resizeMode.cover} style={imageStyle as any} />;
     return <Image source={{ uri }} resizeMode="cover" style={imageStyle} />;
   };
