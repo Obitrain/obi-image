@@ -14,17 +14,14 @@ Coil `size()`), never at full resolution — plus a `prefetch()` API.
 
 ## Installation
 
-Install from a release tag (the package is not on npm):
-
-```jsonc
-// package.json
-"@obitrain/react-native-image": "Obitrain/obi-image#v0.1.1"
+```bash
+yarn add @obitrain/react-native-image   # or: npm install @obitrain/react-native-image
+cd ios && pod install
 ```
 
-`yarn install` clones the tag, runs `prepack` (`bob build`) and packs `src`, `lib`, `ios`, `android` and the committed
-`nitrogen/generated` code. Then `pod install` on iOS; Android autolinks. Kingfisher (`~> 8.12`) and Coil (`3.4.0`)
-are pulled in by the podspec / `build.gradle`. Each release also ships the npm tarball as an asset:
-https://github.com/Obitrain/obi-image/releases.
+Android autolinks. Kingfisher (`~> 8.12`) and Coil (`3.4.0`) are pulled in by the podspec / `build.gradle`; the package
+ships its generated Nitro code, so no codegen step is needed. You can also pin a release tag
+(`"@obitrain/react-native-image": "Obitrain/obi-image#v0.1.1"`) — each GitHub release carries the same tarball.
 
 ## Usage
 
@@ -113,10 +110,11 @@ overlay, `onError`, prefetch and a 200-row recycling list.
 V=0.1.2 && yarn version "$V" && yarn nitrogen && yarn typecheck && yarn lint \
 && git add -A && git commit -m "chore: release v$V" && git tag -a "v$V" -m "v$V" && git push origin main "v$V" \
 && yarn pack --out "/tmp/obitrain-react-native-image-$V.tgz" \
-&& gh release create "v$V" "/tmp/obitrain-react-native-image-$V.tgz" --title "v$V" --generate-notes
+&& gh release create "v$V" "/tmp/obitrain-react-native-image-$V.tgz" --title "v$V" --generate-notes \
+&& npm publish
 ```
 
-Consumers pin the tag: `"@obitrain/react-native-image": "Obitrain/obi-image#vX.Y.Z"`.
+`publishConfig` already sets public access and the npm registry; add `--otp=<code>` if your npm account requires 2FA.
 
 ## License
 
