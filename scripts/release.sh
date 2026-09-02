@@ -13,7 +13,7 @@ git fetch -q origin main && [ "$(git rev-parse HEAD)" = "$(git rev-parse origin/
 yarn version "$V"
 yarn nitrogen
 yarn typecheck && yarn lint
-git add -A && git commit -q -m "chore: release v$V"
+git add -A && { git diff --cached --quiet || git commit -q -m "chore: release v$V"; }
 git tag -a "v$V" -m "v$V"
 git push origin main "v$V"
 echo "pushed v$V — watch https://github.com/Obitrain/obi-image/actions"
