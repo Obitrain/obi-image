@@ -1,7 +1,8 @@
 # @obitrain/react-native-image
 
-A fast image component for React Native, built as a **Nitro view** (`react-native-nitro-modules`) with
-**Kingfisher** on iOS and **Coil 3** on Android. It exposes a FastImage-compatible API and adds what FastImage lacks:
+A fast image component for React Native, built as a [**Nitro view**](https://nitro.margelo.com) (`react-native-nitro-modules`) with
+[**Kingfisher**](https://github.com/onevcat/Kingfisher) on iOS and [**Coil 3**](https://github.com/coil-kt/coil) on Android.
+It exposes a [FastImage](https://github.com/DylanVann/react-native-fast-image)-compatible API and adds what FastImage lacks:
 **decode-to-size** — every image is decoded at the view's pixel size (ImageIO `CGImageSourceCreateThumbnailAtIndex` /
 Coil `size()`), never at full resolution — plus a `prefetch()` API.
 
