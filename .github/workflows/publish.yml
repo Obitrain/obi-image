@@ -44,5 +44,5 @@ jobs:
 
       - name: npm publish (trusted publishing, provenance)
         run: |
-          npm install -g npm@latest # OIDC trusted publishing needs npm >= 11.5
+          npm install -g npm@11 # npm 11 (not @latest): OIDC needs >=11.5, npm 12 requires node >=22.22.2
           npm publish --provenance --access public
