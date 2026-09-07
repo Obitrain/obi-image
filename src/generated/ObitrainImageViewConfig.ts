@@ -12,6 +12,7 @@ export default {
     "decodeWidth": true,
     "decodeHeight": true,
     "recyclingKey": true,
+    "onLoad": true,
     "onError": true,
     "hybridRef": true
   }

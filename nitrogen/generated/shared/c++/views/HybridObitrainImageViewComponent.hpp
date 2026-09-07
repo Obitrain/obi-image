@@ -50,6 +50,7 @@ namespace margelo::nitro::obitrain_reactnativeimage::views {
     CachedProp<std::optional<double>> decodeWidth;
     CachedProp<std::optional<double>> decodeHeight;
     CachedProp<std::optional<std::string>> recyclingKey;
+    CachedProp<std::optional<std::function<void()>>> onLoad;
     CachedProp<std::optional<std::function<void(const std::string& /* message */)>>> onError;
     CachedProp<std::optional<std::function<void(const std::shared_ptr<HybridObitrainImageViewSpec>& /* ref */)>>> hybridRef;
 

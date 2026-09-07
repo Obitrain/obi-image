@@ -96,6 +96,16 @@ namespace margelo::nitro::obitrain_reactnativeimage::views {
         throw std::runtime_error(std::string("ObitrainImageView.recyclingKey: ") + exc.what());
       }
     }()),
+    onLoad([&]() -> CachedProp<std::optional<std::function<void()>>> {
+      try {
+        const react::RawValue* rawValue = rawProps.at("onLoad", nullptr, nullptr);
+        if (rawValue == nullptr) return sourceProps.onLoad;
+        const auto& [runtime, value] = (std::pair<jsi::Runtime*, jsi::Value>)*rawValue;
+        return CachedProp<std::optional<std::function<void()>>>::fromRawValue(*runtime, value.asObject(*runtime).getProperty(*runtime, PropNameIDCache::get(*runtime, "f")), sourceProps.onLoad);
+      } catch (const std::exception& exc) {
+        throw std::runtime_error(std::string("ObitrainImageView.onLoad: ") + exc.what());
+      }
+    }()),
     onError([&]() -> CachedProp<std::optional<std::function<void(const std::string& /* message */)>>> {
       try {
         const react::RawValue* rawValue = rawProps.at("onError", nullptr, nullptr);
@@ -126,6 +136,7 @@ namespace margelo::nitro::obitrain_reactnativeimage::views {
       case hashString("decodeWidth"): return true;
       case hashString("decodeHeight"): return true;
       case hashString("recyclingKey"): return true;
+      case hashString("onLoad"): return true;
       case hashString("onError"): return true;
       case hashString("hybridRef"): return true;
       default: return false;

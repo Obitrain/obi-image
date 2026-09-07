@@ -1,4 +1,29 @@
 {
-  "name": "ReactNativeImageExample",
-  "displayName": "ReactNativeImageExample"
+  "expo": {
+    "name": "ReactNativeImageExample",
+    "slug": "obi-image-example",
+    "version": "1.0.0",
+    "scheme": "obi-image-example",
+    "ios": {
+      "bundleIdentifier": "obitrain.reactnativeimage.example",
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "obitrain.reactnativeimage.example",
+      "allowBackup": false
+    },
+    "plugins": [
+      "expo-dev-client",
+      "./plugins/with-image-cache",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "kotlinVersion": "2.2.0"
+          }
+        }
+      ],
+      "./plugins/with-kotlin-classpath"
+    ]
+  }
 }

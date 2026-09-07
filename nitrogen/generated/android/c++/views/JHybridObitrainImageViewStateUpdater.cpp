@@ -65,6 +65,10 @@ void JHybridObitrainImageViewStateUpdater::updateViewProps(jni::alias_ref<jni::J
     hybridView->setRecyclingKey(props->recyclingKey.value);
     props->recyclingKey.isDirty = false;
   }
+  if (props->onLoad.isDirty) {
+    hybridView->setOnLoad(props->onLoad.value);
+    props->onLoad.isDirty = false;
+  }
   if (props->onError.isDirty) {
     hybridView->setOnError(props->onError.value);
     props->onError.isDirty = false;

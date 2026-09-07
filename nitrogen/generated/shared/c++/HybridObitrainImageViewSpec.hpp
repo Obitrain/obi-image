@@ -62,6 +62,8 @@ namespace margelo::nitro::obitrain_reactnativeimage {
       virtual void setDecodeHeight(std::optional<double> decodeHeight) = 0;
       virtual std::optional<std::string> getRecyclingKey() = 0;
       virtual void setRecyclingKey(const std::optional<std::string>& recyclingKey) = 0;
+      virtual std::optional<std::function<void()>> getOnLoad() = 0;
+      virtual void setOnLoad(const std::optional<std::function<void()>>& onLoad) = 0;
       virtual std::optional<std::function<void(const std::string& /* message */)>> getOnError() = 0;
       virtual void setOnError(const std::optional<std::function<void(const std::string& /* message */)>>& onError) = 0;
 

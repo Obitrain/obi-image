@@ -15,8 +15,9 @@ namespace margelo::nitro::obitrain_reactnativeimage { enum class NativeResizeMod
 #include "NativeResizeMode.hpp"
 #include "JNativeResizeMode.hpp"
 #include <functional>
-#include "JFunc_void_std__string.hpp"
+#include "JFunc_void.hpp"
 #include <NitroModules/JNICallable.hpp>
+#include "JFunc_void_std__string.hpp"
 
 namespace margelo::nitro::obitrain_reactnativeimage {
 
@@ -110,6 +111,23 @@ namespace margelo::nitro::obitrain_reactnativeimage {
   void JHybridObitrainImageViewSpec::setRecyclingKey(const std::optional<std::string>& recyclingKey) {
     static const auto method = _javaPart->javaClassStatic()->getMethod<void(jni::alias_ref<jni::JString> /* recyclingKey */)>("setRecyclingKey");
     method(_javaPart, recyclingKey.has_value() ? jni::make_jstring(recyclingKey.value()) : nullptr);
+  }
+  std::optional<std::function<void()>> JHybridObitrainImageViewSpec::getOnLoad() {
+    static const auto method = _javaPart->javaClassStatic()->getMethod<jni::local_ref<JFunc_void::javaobject>()>("getOnLoad_cxx");
+    auto __result = method(_javaPart);
+    return __result != nullptr ? std::make_optional([&]() -> std::function<void()> {
+      if (__result->isInstanceOf(JFunc_void_cxx::javaClassStatic())) [[likely]] {
+        auto downcast = jni::static_ref_cast<JFunc_void_cxx::javaobject>(__result);
+        return downcast->cthis()->getFunction();
+      } else {
+        auto __resultRef = jni::make_global(__result);
+        return JNICallable<JFunc_void, void()>(std::move(__resultRef));
+      }
+    }()) : std::nullopt;
+  }
+  void JHybridObitrainImageViewSpec::setOnLoad(const std::optional<std::function<void()>>& onLoad) {
+    static const auto method = _javaPart->javaClassStatic()->getMethod<void(jni::alias_ref<JFunc_void::javaobject> /* onLoad */)>("setOnLoad_cxx");
+    method(_javaPart, onLoad.has_value() ? JFunc_void_cxx::fromCpp(onLoad.value()) : nullptr);
   }
   std::optional<std::function<void(const std::string& /* message */)>> JHybridObitrainImageViewSpec::getOnError() {
     static const auto method = _javaPart->javaClassStatic()->getMethod<jni::local_ref<JFunc_void_std__string::javaobject>()>("getOnError_cxx");

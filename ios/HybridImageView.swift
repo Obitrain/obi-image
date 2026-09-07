@@ -25,6 +25,7 @@ final class HybridImageView: HybridObitrainImageViewSpec, RecyclableView {
   var decodeWidth: Double? = nil
   var decodeHeight: Double? = nil
   var recyclingKey: String? = nil
+  var onLoad: (() -> Void)? = nil
   var onError: ((String) -> Void)? = nil
 
   private var loadedKey: String? = nil
@@ -62,7 +63,7 @@ final class HybridImageView: HybridObitrainImageViewSpec, RecyclableView {
     view.kf.cancelDownloadTask()
     if let name = resource, !name.isEmpty {
       view.image = UIImage(named: name)
-      if view.image == nil { onError?("Bundled image not found: \(name)") }
+      if view.image == nil { onError?("Bundled image not found: \(name)") } else { onLoad?() }
       return
     }
     guard let s = uri, let url = URL(string: s) else { view.image = nil; return }
@@ -87,8 +88,9 @@ final class HybridImageView: HybridObitrainImageViewSpec, RecyclableView {
     view.kf.setImage(with: source, placeholder: nil, options: options) { [weak self] result in
       guard let self else { return }
       switch result {
-      case .success(let r):
+      case .success:
         self.applyTint()
+        self.onLoad?()
       case .failure(let e):
         if !e.isTaskCancelled { self.onError?(e.localizedDescription) }
       }
@@ -132,7 +134,7 @@ final class HybridImageView: HybridObitrainImageViewSpec, RecyclableView {
     onMain { self.view.kf.cancelDownloadTask() }
     view.image = nil
     uri = nil; resource = nil; resizeMode = nil; tintColor = nil
-    decodeWidth = nil; decodeHeight = nil; recyclingKey = nil; onError = nil
+    decodeWidth = nil; decodeHeight = nil; recyclingKey = nil; onError = nil; onLoad = nil
     loadedKey = nil; lastRecyclingKey = nil
   }
 }
