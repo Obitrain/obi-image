@@ -97,12 +97,12 @@ Not supported (yet): `priority`, `cacheControl`, `headers`, `defaultSource`, `on
 yarn                     # installs the library and the example workspace (nitro pinned to 0.36.5)
 yarn nitrogen            # regenerate Nitro specs (+ RN 0.87 patch + view config module)
 yarn typecheck && yarn lint
-yarn example start --port 8083          # Metro for the example (the example is wired to 8083)
-yarn example ios                        # AppDelegate points at 8083 in Debug
-cd example/android && ./gradlew :app:assembleDebug -PreactNativeDevServerPort=8083   # Android needs the port at build time
+yarn example prebuild --clean           # generate native projects
+yarn example start                      # Expo development server on port 8083
+yarn example ios                        # or: yarn example android
 ```
 
-`example/` (RN 0.87.1) has a **Demo** screen exercising the whole surface: decode-to-size, `require()` + tint, tappable
+[`example/`](example/README.md) (Expo SDK 57, RN 0.86.3) has a **Demo** screen exercising the whole surface: decode-to-size, `require()` + tint, tappable
 overlay, `onError`, prefetch and a 200-row recycling list.
 
 ## Releasing
