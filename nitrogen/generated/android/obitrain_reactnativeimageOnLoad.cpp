@@ -17,6 +17,7 @@
 
 #include "JHybridImagePrefetcherSpec.hpp"
 #include "JHybridObitrainImageViewSpec.hpp"
+#include "JFunc_void.hpp"
 #include "JFunc_void_std__string.hpp"
 #include "views/JHybridObitrainImageViewStateUpdater.hpp"
 #include <NitroModules/DefaultConstructableObject.hpp>
@@ -53,6 +54,7 @@ void registerAllNatives() {
   // Register native JNI methods
   margelo::nitro::obitrain_reactnativeimage::JHybridImagePrefetcherSpec::CxxPart::registerNatives();
   margelo::nitro::obitrain_reactnativeimage::JHybridObitrainImageViewSpec::CxxPart::registerNatives();
+  margelo::nitro::obitrain_reactnativeimage::JFunc_void_cxx::registerNatives();
   margelo::nitro::obitrain_reactnativeimage::JFunc_void_std__string_cxx::registerNatives();
   margelo::nitro::obitrain_reactnativeimage::views::JHybridObitrainImageViewStateUpdater::registerNatives();
 

@@ -20,3 +20,5 @@ After prebuild, `yarn example build:android` builds an arm64 debug APK and `yarn
 The image-cache plugin preserves the iOS benchmark cache sizes. Metro uses port 8083.
 
 The Android plugins align Kotlin 2.2.0 in both the build properties and root compiler classpath for Coil compatibility.
+
+Use **Run all libraries** to run cold and cached passes sequentially for RN Image, FastImage, and obi-image in the selected size mode. The six-run comparison appears automatically afterward, with loaded counts, median/p95 load times, and bars grouped by cache mode. Back cancels the sequence and retains completed results. Results last until the app reloads.

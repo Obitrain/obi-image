@@ -45,6 +45,7 @@ await prefetch(nextScreen.map((r) => r.thumbUrl)); // warm the disk cache (iOS: 
 | `resizeMode` | `'cover'` (default) \| `'contain'` \| `'center'` \| `'stretch'` | Same names as FastImage / RN. |
 | `style` | `StyleProp<ViewStyle>` | Applied to the wrapper `View`; `borderRadius` clips. **Give a numeric `width`/`height`** so the decode size is known at first render. |
 | `tintColor` | `ColorValue` | Template-renders the image (icons). |
+| `onLoad` | `() => void` | Fires after a local, cached, or network image loads successfully. |
 | `onError` | `() => void` | Fires when the load fails (404, decode error, missing bundled asset). |
 | `recyclingKey` | `string` | Set to the row id in lists so a recycled cell never shows the previous row's image. |
 | `children` | `ReactNode` | Rendered as siblings above the native image view — overlays, buttons. |
@@ -118,3 +119,5 @@ Bumps `package.json`, regenerates and commits the Nitro code, runs the checks, t
 ## License
 
 MIT
+
+The example benchmark compares RN Image, FastImage, and obi-image with a fixed 10-second scroll sequence. It records mount-to-load-callback median/p95 times, failures, and incomplete rows, with up to 10 extra seconds for pending loads. Repeat cached URLs after a completed run to exercise caches; cache hits are not guaranteed. Recent comparisons remain available until the app reloads. These are end-to-end load times, not isolated decoder, memory, or frame-rate measurements.

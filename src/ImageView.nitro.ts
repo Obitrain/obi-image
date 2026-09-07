@@ -19,6 +19,7 @@ export interface ImageViewProps extends HybridViewProps {
   decodeHeight?: number;
   /** Changing it clears the current image before the next load (list recycling). */
   recyclingKey?: string;
+  onLoad?: () => void;
   onError?: (message: string) => void;
 }
 export interface ImageViewMethods extends HybridViewMethods {}

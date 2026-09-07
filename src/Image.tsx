@@ -23,6 +23,7 @@ export interface ImageProps extends Omit<ViewProps, 'style'> {
   resizeMode?: ResizeMode;
   style?: StyleProp<ViewStyle>;
   tintColor?: ColorValue;
+  onLoad?: () => void;
   onError?: () => void;
   /** Set in lists so a recycled cell never shows the previous row's image. */
   recyclingKey?: string;
@@ -62,6 +63,7 @@ function ImageImpl({
   style,
   tintColor,
   onError,
+  onLoad,
   recyclingKey,
   children,
   onLayout: onLayoutProp,
@@ -86,6 +88,10 @@ function ImageImpl({
     () => (tintColor == null ? undefined : (processColor(tintColor) as number)),
     [tintColor]
   );
+  const onLoadCb = useMemo(
+    () => (onLoad ? callback(onLoad) : undefined),
+    [onLoad]
+  );
   const onErrorCb = useMemo(
     () => (onError ? callback((_message: string) => onError()) : undefined),
     [onError]
@@ -103,6 +109,7 @@ function ImageImpl({
         decodeWidth={Math.ceil(size.w * scale)}
         decodeHeight={Math.ceil(size.h * scale)}
         recyclingKey={recyclingKey}
+        onLoad={onLoadCb}
         onError={onErrorCb}
       />
       {children}

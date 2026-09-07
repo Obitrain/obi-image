@@ -29,6 +29,7 @@ class HybridImageView(val context: ThemedReactContext) : HybridObitrainImageView
   override var decodeWidth: Double? = null
   override var decodeHeight: Double? = null
   override var recyclingKey: String? = null
+  override var onLoad: (() -> Unit)? = null
   override var onError: ((String) -> Unit)? = null
 
   private var loadedKey: String? = null
@@ -64,7 +65,7 @@ class HybridImageView(val context: ThemedReactContext) : HybridObitrainImageView
       .size(w, h)
       .precision(Precision.INEXACT)
       .allowHardware(true)
-      .listener(onError = { _, r -> onError?.invoke(r.throwable.message ?: "Image load failed") })
+      .listener(onSuccess = { _, _ -> onLoad?.invoke() }, onError = { _, r -> onError?.invoke(r.throwable.message ?: "Image load failed") })
       .build()
     ImageLoaders.get(context).enqueue(request) // cancels the previous request on this view
   }
@@ -86,7 +87,7 @@ class HybridImageView(val context: ThemedReactContext) : HybridObitrainImageView
     view.setImageDrawable(null)
     view.colorFilter = null
     uri = null; resource = null; resizeMode = null; tintColor = null
-    decodeWidth = null; decodeHeight = null; recyclingKey = null; onError = null
+    decodeWidth = null; decodeHeight = null; recyclingKey = null; onError = null; onLoad = null
     loadedKey = null; lastRecyclingKey = null
   }
 }

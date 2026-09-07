@@ -28,6 +28,8 @@ namespace margelo::nitro::obitrain_reactnativeimage {
       prototype.registerHybridSetter("decodeHeight", &HybridObitrainImageViewSpec::setDecodeHeight);
       prototype.registerHybridGetter("recyclingKey", &HybridObitrainImageViewSpec::getRecyclingKey);
       prototype.registerHybridSetter("recyclingKey", &HybridObitrainImageViewSpec::setRecyclingKey);
+      prototype.registerHybridGetter("onLoad", &HybridObitrainImageViewSpec::getOnLoad);
+      prototype.registerHybridSetter("onLoad", &HybridObitrainImageViewSpec::setOnLoad);
       prototype.registerHybridGetter("onError", &HybridObitrainImageViewSpec::getOnError);
       prototype.registerHybridSetter("onError", &HybridObitrainImageViewSpec::setOnError);
     });

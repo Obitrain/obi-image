@@ -69,6 +69,20 @@ abstract class HybridObitrainImageViewSpec: HybridView() {
   @set:Keep
   abstract var recyclingKey: String?
   
+  abstract var onLoad: (() -> Unit)?
+  
+  private var onLoad_cxx: Func_void?
+    @Keep
+    @DoNotStrip
+    get() {
+      return onLoad?.let { Func_void_java(it) }
+    }
+    @Keep
+    @DoNotStrip
+    set(value) {
+      onLoad = value?.let { it }
+    }
+  
   abstract var onError: ((message: String) -> Unit)?
   
   private var onError_cxx: Func_void_std__string?

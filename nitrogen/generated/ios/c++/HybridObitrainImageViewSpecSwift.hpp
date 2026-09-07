@@ -115,6 +115,13 @@ namespace margelo::nitro::obitrain_reactnativeimage {
     inline void setRecyclingKey(const std::optional<std::string>& recyclingKey) noexcept override {
       _swiftPart.setRecyclingKey(recyclingKey);
     }
+    inline std::optional<std::function<void()>> getOnLoad() noexcept override {
+      auto __result = _swiftPart.getOnLoad();
+      return __result;
+    }
+    inline void setOnLoad(const std::optional<std::function<void()>>& onLoad) noexcept override {
+      _swiftPart.setOnLoad(onLoad);
+    }
     inline std::optional<std::function<void(const std::string& /* message */)>> getOnError() noexcept override {
       auto __result = _swiftPart.getOnError();
       return __result;

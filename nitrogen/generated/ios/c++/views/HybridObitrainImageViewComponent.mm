@@ -115,6 +115,11 @@ using namespace margelo::nitro::obitrain_reactnativeimage::views;
     swiftPart.setRecyclingKey(newViewProps.recyclingKey.value);
     newViewProps.recyclingKey.isDirty = false;
   }
+  // onLoad: optional
+  if (newViewProps.onLoad.isDirty) {
+    swiftPart.setOnLoad(newViewProps.onLoad.value);
+    newViewProps.onLoad.isDirty = false;
+  }
   // onError: optional
   if (newViewProps.onError.isDirty) {
     swiftPart.setOnError(newViewProps.onError.value);

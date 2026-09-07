@@ -17,6 +17,7 @@ public protocol HybridObitrainImageViewSpec_protocol: HybridObject, HybridView {
   var decodeWidth: Double? { get set }
   var decodeHeight: Double? { get set }
   var recyclingKey: String? { get set }
+  var onLoad: (() -> Void)? { get set }
   var onError: ((_ message: String) -> Void)? { get set }
 
   // Methods
