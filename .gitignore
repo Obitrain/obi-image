@@ -88,3 +88,8 @@ nitrogen/*
 
 # Local scratch artifacts (reports, previews)
 .scratch/
+
+# Generated Expo example projects
+/example/ios/
+/example/android/
+/example/dist/
