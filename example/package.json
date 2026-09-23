@@ -14,9 +14,9 @@
   },
   "dependencies": {
     "@d11/react-native-fast-image": "8.13.0",
-    "expo": "~57.0.20",
-    "expo-build-properties": "~57.0.17",
-    "expo-dev-client": "~57.0.0",
+    "expo": "~57.0.24",
+    "expo-build-properties": "~57.0.21",
+    "expo-dev-client": "~57.0.19",
     "react": "19.2.3",
     "react-native": "0.86.3",
     "react-native-nitro-modules": "0.36.5"
@@ -27,7 +27,7 @@
     "@babel/runtime": "^7.29.7",
     "@types/react": "^19.2.18",
     "@types/react-refresh": "^0",
-    "babel-preset-expo": "~57.0.10",
+    "babel-preset-expo": "~57.0.12",
     "react-native-builder-bob": "^0.43.0",
     "react-native-monorepo-config": "^0.4.0",
     "react-refresh": "^0.14.2"
