@@ -40,7 +40,8 @@
     "nitrogen": "nitrogen && node scripts/patch-nitrogen.mjs",
     "typecheck": "tsc",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
-    "prepack": "bob build"
+    "prepack": "bob build",
+    "release": "bash scripts/release-pr.sh"
   },
   "keywords": [
     "react-native",
