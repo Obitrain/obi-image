@@ -1,20 +1,47 @@
-# Publishes a release when a v* tag is pushed: checks, GitHub release with the tarball, npm publish via
-# trusted publishing (OIDC — no NPM_TOKEN; the trusted publisher on npmjs.com must point at this file).
+# Releases only when a release/<version> PR merges (open one with `yarn release <version>`): checks, npm
+# publish via trusted publishing (OIDC — the trusted publisher on npmjs.com must point at this file), tag
+# v<version>, GitHub release with the tarball and the PR description as notes. Dispatch re-runs an existing
+# release; every step is idempotent.
 name: publish
 
 on:
-  push:
-    tags: ['v*']
+  pull_request:
+    types: [closed]
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Existing version to re-publish (e.g. 0.2.0)
+        required: true
 
 permissions:
-  contents: write # gh release create
+  contents: write # tag + gh release create
   id-token: write # npm OIDC
 
 jobs:
   publish:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.pull_request.merged == true &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      startsWith(github.event.pull_request.head.ref, 'release/'))
     runs-on: ubuntu-latest
     steps:
+      - name: Resolve version
+        id: v
+        env:
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+          INPUT_VERSION: ${{ inputs.version }}
+        run: |
+          VERSION="${INPUT_VERSION:-${HEAD_REF#release/}}"
+          VERSION="${VERSION#v}"
+          [[ $VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.]+)?$ ]] || { echo "not a semver: '$VERSION'"; exit 1; }
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.version && format('v{0}', steps.v.outputs.version) || github.event.pull_request.merge_commit_sha }}
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -22,11 +49,10 @@ jobs:
       - run: corepack enable
       - run: yarn install --immutable
 
-      - name: Version must match the tag
-        run: |
-          TAG="${GITHUB_REF_NAME#v}"
-          PKG="$(node -p "require('./package.json').version")"
-          test "$TAG" = "$PKG" || { echo "tag v$TAG != package.json $PKG"; exit 1; }
+      - name: package.json must match the release version
+        env:
+          VERSION: ${{ steps.v.outputs.version }}
+        run: test "$(node -p "require('./package.json').version")" = "$VERSION"
 
       - name: Generated Nitro code must be committed and current
         run: yarn nitrogen && git diff --exit-code -- nitrogen src/generated
@@ -35,14 +61,33 @@ jobs:
       - run: yarn lint
 
       - name: Pack (runs prepack → bob build)
-        run: yarn pack --out "/tmp/obitrain-react-native-image-${GITHUB_REF_NAME#v}.tgz"
-
-      - name: GitHub release
         env:
-          GH_TOKEN: ${{ github.token }}
-        run: gh release create "$GITHUB_REF_NAME" /tmp/obitrain-react-native-image-*.tgz --title "$GITHUB_REF_NAME" --generate-notes
+          VERSION: ${{ steps.v.outputs.version }}
+        run: yarn pack --out "/tmp/obitrain-react-native-image-$VERSION.tgz"
 
       - name: npm publish (trusted publishing, provenance)
+        env:
+          VERSION: ${{ steps.v.outputs.version }}
         run: |
           npm install -g npm@11 # npm 11 (not @latest): OIDC needs >=11.5, npm 12 requires node >=22.22.2
-          npm publish --provenance --access public
+          if npm view "@obitrain/react-native-image@$VERSION" version >/dev/null 2>&1; then
+            echo "$VERSION already on npm, skipping"
+          else
+            npm publish --provenance --access public
+          fi
+
+      - name: Tag and GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.v.outputs.version }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          TAG="v$VERSION"
+          git ls-remote --exit-code --tags origin "refs/tags/$TAG" >/dev/null || { git tag "$TAG" && git push origin "$TAG"; }
+          if gh release view "$TAG" >/dev/null 2>&1; then echo "release $TAG exists"; exit 0; fi
+          if [ -n "$PR_BODY" ]; then
+            printf '%s\n' "$PR_BODY" > /tmp/notes.md
+            gh release create "$TAG" /tmp/obitrain-react-native-image-*.tgz --title "$TAG" --notes-file /tmp/notes.md
+          else
+            gh release create "$TAG" /tmp/obitrain-react-native-image-*.tgz --title "$TAG" --generate-notes
+          fi

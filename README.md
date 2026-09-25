@@ -108,13 +108,16 @@ overlay, `onError`, prefetch and a 200-row recycling list.
 
 ## Releasing
 
+Merging to `main` never publishes. To release, open a release PR:
+
 ```bash
-scripts/release.sh 0.1.2
+yarn release 0.2.0
 ```
 
-Bumps `package.json`, regenerates and commits the Nitro code, runs the checks, tags `v0.1.2` and pushes. The
-`publish.yml` workflow then creates the GitHub release (with the tarball) and publishes to npm through
-[trusted publishing](https://docs.npmjs.com/trusted-publishers) — no token to manage.
+It bumps `package.json` on a `release/0.2.0` branch and opens a PR whose description (drafted from the
+commits since the last tag) becomes the release notes — edit it before merging. Merging the PR runs
+`publish.yml`: checks, npm publish through [trusted publishing](https://docs.npmjs.com/trusted-publishers)
+(no token to manage), tag `v0.2.0` and the GitHub release with the tarball.
 
 ## License
 
