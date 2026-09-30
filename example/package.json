@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@d11/react-native-fast-image": "8.13.0",
-    "expo": "~57.0.25",
+    "expo": "~57.0.26",
     "expo-build-properties": "~57.0.22",
     "expo-dev-client": "~57.0.19",
     "react": "19.2.3",
