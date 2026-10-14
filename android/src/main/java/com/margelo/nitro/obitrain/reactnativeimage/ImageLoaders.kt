@@ -10,6 +10,7 @@ import coil3.gif.AnimatedImageDecoder
 import coil3.gif.GifDecoder
 import coil3.memory.MemoryCache
 import coil3.network.okhttp.OkHttpNetworkFetcherFactory
+import coil3.video.VideoFrameDecoder
 
 /** Library-owned Coil loader (never the app singleton), one per process. */
 object ImageLoaders {
@@ -31,6 +32,7 @@ object ImageLoaders {
       .components {
         add(OkHttpNetworkFetcherFactory())
         if (Build.VERSION.SDK_INT >= 28) add(AnimatedImageDecoder.Factory()) else add(GifDecoder.Factory())
+        add(VideoFrameDecoder.Factory()) // local video files (picker) render their first frame
       }
       .build()
 }
