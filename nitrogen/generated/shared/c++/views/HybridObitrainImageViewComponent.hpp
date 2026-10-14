@@ -7,14 +7,15 @@
 
 #pragma once
 
-#include <optional>
-#include <NitroModules/NitroDefines.hpp>
-#include <NitroModules/NitroHash.hpp>
-#include <NitroModules/CachedProp.hpp>
-#include <react/renderer/core/ConcreteComponentDescriptor.h>
-#include <react/renderer/core/PropsParserContext.h>
+#include <NitroModules/ReactProp.hpp>
+#include <NitroModules/ViewComponentDescriptor.hpp>
+#include <NitroModules/ViewPropsHolderState.hpp>
 #include <react/renderer/components/view/ConcreteViewShadowNode.h>
 #include <react/renderer/components/view/ViewProps.h>
+#include <react/renderer/core/PropsParserContext.h>
+#include <react/renderer/core/RawProps.h>
+
+#include <string>
 
 #include <string>
 #include <optional>
@@ -43,16 +44,44 @@ namespace margelo::nitro::obitrain_reactnativeimage::views {
                                  const react::RawProps& rawProps);
 
   public:
-    CachedProp<std::optional<std::string>> uri;
-    CachedProp<std::optional<std::string>> resource;
-    CachedProp<std::optional<NativeResizeMode>> resizeMode;
-    CachedProp<std::optional<double>> tintColor;
-    CachedProp<std::optional<double>> decodeWidth;
-    CachedProp<std::optional<double>> decodeHeight;
-    CachedProp<std::optional<std::string>> recyclingKey;
-    CachedProp<std::optional<std::function<void()>>> onLoad;
-    CachedProp<std::optional<std::function<void(const std::string& /* message */)>>> onError;
-    CachedProp<std::optional<std::function<void(const std::shared_ptr<HybridObitrainImageViewSpec>& /* ref */)>>> hybridRef;
+    nitro::ReactProp<std::optional<std::string>> uri;
+    nitro::ReactProp<std::optional<std::string>> resource;
+    nitro::ReactProp<std::optional<NativeResizeMode>> resizeMode;
+    nitro::ReactProp<std::optional<double>> tintColor;
+    nitro::ReactProp<std::optional<double>> decodeWidth;
+    nitro::ReactProp<std::optional<double>> decodeHeight;
+    nitro::ReactProp<std::optional<std::string>> recyclingKey;
+    nitro::ReactProp<std::optional<std::function<void()>>> onLoad;
+    nitro::ReactProp<std::optional<std::function<void(const std::string& /* message */)>>> onError;
+    nitro::ReactProp<std::optional<std::function<void(const std::shared_ptr<HybridObitrainImageViewSpec>& /* ref */)>>> hybridRef;
+
+    [[nodiscard]]
+    bool hasSameProps(const HybridObitrainImageViewProps& other) const noexcept {
+      return uri.hasSameValue(other.uri) &&
+             resource.hasSameValue(other.resource) &&
+             resizeMode.hasSameValue(other.resizeMode) &&
+             tintColor.hasSameValue(other.tintColor) &&
+             decodeWidth.hasSameValue(other.decodeWidth) &&
+             decodeHeight.hasSameValue(other.decodeHeight) &&
+             recyclingKey.hasSameValue(other.recyclingKey) &&
+             onLoad.hasSameValue(other.onLoad) &&
+             onError.hasSameValue(other.onError) &&
+             hybridRef.hasSameValue(other.hybridRef);
+    }
+
+    [[nodiscard]]
+    bool hasAnyProvidedProps() const noexcept {
+      return uri.isProvided() ||
+             resource.isProvided() ||
+             resizeMode.isProvided() ||
+             tintColor.isProvided() ||
+             decodeWidth.isProvided() ||
+             decodeHeight.isProvided() ||
+             recyclingKey.isProvided() ||
+             onLoad.isProvided() ||
+             onError.isProvided() ||
+             hybridRef.isProvided();
+    }
 
   private:
     static bool filterObjectKeys(const std::string& propName);
@@ -61,32 +90,7 @@ namespace margelo::nitro::obitrain_reactnativeimage::views {
   /**
    * State for the "ObitrainImageView" View.
    */
-  class HybridObitrainImageViewState final {
-  public:
-    HybridObitrainImageViewState() = default;
-    explicit HybridObitrainImageViewState(const std::shared_ptr<HybridObitrainImageViewProps>& props):
-      _props(props) {}
-
-  public:
-    [[nodiscard]]
-    const std::shared_ptr<HybridObitrainImageViewProps>& getProps() const {
-      return _props;
-    }
-
-  public:
-#ifdef ANDROID
-  HybridObitrainImageViewState(const HybridObitrainImageViewState& /* previousState */, folly::dynamic /* data */) {}
-  folly::dynamic getDynamic() const {
-    throw std::runtime_error("HybridObitrainImageViewState does not support folly!");
-  }
-  react::MapBuffer getMapBuffer() const {
-    throw std::runtime_error("HybridObitrainImageViewState does not support MapBuffer!");
-  };
-#endif
-
-  private:
-    std::shared_ptr<HybridObitrainImageViewProps> _props;
-  };
+  using HybridObitrainImageViewState = nitro::ViewPropsHolderState<HybridObitrainImageViewProps>;
 
   /**
    * The Shadow Node for the "ObitrainImageView" View.
@@ -99,21 +103,7 @@ namespace margelo::nitro::obitrain_reactnativeimage::views {
   /**
    * The Component Descriptor for the "ObitrainImageView" View.
    */
-  class HybridObitrainImageViewComponentDescriptor final: public react::ConcreteComponentDescriptor<HybridObitrainImageViewShadowNode> {
-  public:
-    explicit HybridObitrainImageViewComponentDescriptor(const react::ComponentDescriptorParameters& parameters);
-
-  public:
-    /**
-     * A faster path for cloning props - reuses the caching logic from `HybridObitrainImageViewProps`.
-     */
-    std::shared_ptr<const react::Props> cloneProps(const react::PropsParserContext& context,
-                                                   const std::shared_ptr<const react::Props>& props,
-                                                   react::RawProps rawProps) const override;
-#ifdef ANDROID
-    void adopt(react::ShadowNode& shadowNode) const override;
-#endif
-  };
+  using HybridObitrainImageViewComponentDescriptor = nitro::ViewComponentDescriptor<HybridObitrainImageViewShadowNode>;
 
   /* The actual view for "ObitrainImageView" needs to be implemented in platform-specific code. */
 

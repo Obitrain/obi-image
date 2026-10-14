@@ -7,18 +7,12 @@
 
 #include "HybridObitrainImageViewComponent.hpp"
 
-#include <string>
-#include <exception>
-#include <utility>
-#include <NitroModules/NitroDefines.hpp>
-#include <NitroModules/JSIConverter.hpp>
-#include <NitroModules/PropNameIDCache.hpp>
-#include <react/renderer/core/RawValue.h>
-#include <react/renderer/core/ShadowNode.h>
-#include <react/renderer/core/ComponentDescriptor.h>
-#include <react/renderer/components/view/ViewProps.h>
+#include <NitroModules/NitroHash.hpp>
+#include <NitroModules/ReactProp.hpp>
 
 namespace margelo::nitro::obitrain_reactnativeimage::views {
+
+  using namespace facebook;
 
   extern const char HybridObitrainImageViewComponentName[] = "ObitrainImageView";
 
@@ -26,106 +20,16 @@ namespace margelo::nitro::obitrain_reactnativeimage::views {
                                                              const HybridObitrainImageViewProps& sourceProps,
                                                              const react::RawProps& rawProps):
     react::ViewProps(context, sourceProps, rawProps, filterObjectKeys),
-    uri([&]() -> CachedProp<std::optional<std::string>> {
-      try {
-        const react::RawValue* rawValue = rawProps.at("uri", nullptr, nullptr);
-        if (rawValue == nullptr) return sourceProps.uri;
-        const auto& [runtime, value] = (std::pair<jsi::Runtime*, jsi::Value>)*rawValue;
-        return CachedProp<std::optional<std::string>>::fromRawValue(*runtime, value, sourceProps.uri);
-      } catch (const std::exception& exc) {
-        throw std::runtime_error(std::string("ObitrainImageView.uri: ") + exc.what());
-      }
-    }()),
-    resource([&]() -> CachedProp<std::optional<std::string>> {
-      try {
-        const react::RawValue* rawValue = rawProps.at("resource", nullptr, nullptr);
-        if (rawValue == nullptr) return sourceProps.resource;
-        const auto& [runtime, value] = (std::pair<jsi::Runtime*, jsi::Value>)*rawValue;
-        return CachedProp<std::optional<std::string>>::fromRawValue(*runtime, value, sourceProps.resource);
-      } catch (const std::exception& exc) {
-        throw std::runtime_error(std::string("ObitrainImageView.resource: ") + exc.what());
-      }
-    }()),
-    resizeMode([&]() -> CachedProp<std::optional<NativeResizeMode>> {
-      try {
-        const react::RawValue* rawValue = rawProps.at("resizeMode", nullptr, nullptr);
-        if (rawValue == nullptr) return sourceProps.resizeMode;
-        const auto& [runtime, value] = (std::pair<jsi::Runtime*, jsi::Value>)*rawValue;
-        return CachedProp<std::optional<NativeResizeMode>>::fromRawValue(*runtime, value, sourceProps.resizeMode);
-      } catch (const std::exception& exc) {
-        throw std::runtime_error(std::string("ObitrainImageView.resizeMode: ") + exc.what());
-      }
-    }()),
-    tintColor([&]() -> CachedProp<std::optional<double>> {
-      try {
-        const react::RawValue* rawValue = rawProps.at("tintColor", nullptr, nullptr);
-        if (rawValue == nullptr) return sourceProps.tintColor;
-        const auto& [runtime, value] = (std::pair<jsi::Runtime*, jsi::Value>)*rawValue;
-        return CachedProp<std::optional<double>>::fromRawValue(*runtime, value, sourceProps.tintColor);
-      } catch (const std::exception& exc) {
-        throw std::runtime_error(std::string("ObitrainImageView.tintColor: ") + exc.what());
-      }
-    }()),
-    decodeWidth([&]() -> CachedProp<std::optional<double>> {
-      try {
-        const react::RawValue* rawValue = rawProps.at("decodeWidth", nullptr, nullptr);
-        if (rawValue == nullptr) return sourceProps.decodeWidth;
-        const auto& [runtime, value] = (std::pair<jsi::Runtime*, jsi::Value>)*rawValue;
-        return CachedProp<std::optional<double>>::fromRawValue(*runtime, value, sourceProps.decodeWidth);
-      } catch (const std::exception& exc) {
-        throw std::runtime_error(std::string("ObitrainImageView.decodeWidth: ") + exc.what());
-      }
-    }()),
-    decodeHeight([&]() -> CachedProp<std::optional<double>> {
-      try {
-        const react::RawValue* rawValue = rawProps.at("decodeHeight", nullptr, nullptr);
-        if (rawValue == nullptr) return sourceProps.decodeHeight;
-        const auto& [runtime, value] = (std::pair<jsi::Runtime*, jsi::Value>)*rawValue;
-        return CachedProp<std::optional<double>>::fromRawValue(*runtime, value, sourceProps.decodeHeight);
-      } catch (const std::exception& exc) {
-        throw std::runtime_error(std::string("ObitrainImageView.decodeHeight: ") + exc.what());
-      }
-    }()),
-    recyclingKey([&]() -> CachedProp<std::optional<std::string>> {
-      try {
-        const react::RawValue* rawValue = rawProps.at("recyclingKey", nullptr, nullptr);
-        if (rawValue == nullptr) return sourceProps.recyclingKey;
-        const auto& [runtime, value] = (std::pair<jsi::Runtime*, jsi::Value>)*rawValue;
-        return CachedProp<std::optional<std::string>>::fromRawValue(*runtime, value, sourceProps.recyclingKey);
-      } catch (const std::exception& exc) {
-        throw std::runtime_error(std::string("ObitrainImageView.recyclingKey: ") + exc.what());
-      }
-    }()),
-    onLoad([&]() -> CachedProp<std::optional<std::function<void()>>> {
-      try {
-        const react::RawValue* rawValue = rawProps.at("onLoad", nullptr, nullptr);
-        if (rawValue == nullptr) return sourceProps.onLoad;
-        const auto& [runtime, value] = (std::pair<jsi::Runtime*, jsi::Value>)*rawValue;
-        return CachedProp<std::optional<std::function<void()>>>::fromRawValue(*runtime, value.asObject(*runtime).getProperty(*runtime, PropNameIDCache::get(*runtime, "f")), sourceProps.onLoad);
-      } catch (const std::exception& exc) {
-        throw std::runtime_error(std::string("ObitrainImageView.onLoad: ") + exc.what());
-      }
-    }()),
-    onError([&]() -> CachedProp<std::optional<std::function<void(const std::string& /* message */)>>> {
-      try {
-        const react::RawValue* rawValue = rawProps.at("onError", nullptr, nullptr);
-        if (rawValue == nullptr) return sourceProps.onError;
-        const auto& [runtime, value] = (std::pair<jsi::Runtime*, jsi::Value>)*rawValue;
-        return CachedProp<std::optional<std::function<void(const std::string& /* message */)>>>::fromRawValue(*runtime, value.asObject(*runtime).getProperty(*runtime, PropNameIDCache::get(*runtime, "f")), sourceProps.onError);
-      } catch (const std::exception& exc) {
-        throw std::runtime_error(std::string("ObitrainImageView.onError: ") + exc.what());
-      }
-    }()),
-    hybridRef([&]() -> CachedProp<std::optional<std::function<void(const std::shared_ptr<HybridObitrainImageViewSpec>& /* ref */)>>> {
-      try {
-        const react::RawValue* rawValue = rawProps.at("hybridRef", nullptr, nullptr);
-        if (rawValue == nullptr) return sourceProps.hybridRef;
-        const auto& [runtime, value] = (std::pair<jsi::Runtime*, jsi::Value>)*rawValue;
-        return CachedProp<std::optional<std::function<void(const std::shared_ptr<HybridObitrainImageViewSpec>& /* ref */)>>>::fromRawValue(*runtime, value.asObject(*runtime).getProperty(*runtime, PropNameIDCache::get(*runtime, "f")), sourceProps.hybridRef);
-      } catch (const std::exception& exc) {
-        throw std::runtime_error(std::string("ObitrainImageView.hybridRef: ") + exc.what());
-      }
-    }()) { }
+    uri(nitro::ReactProp<std::optional<std::string>>::fromRawValue("ObitrainImageView", "uri", rawProps, sourceProps.uri)),
+    resource(nitro::ReactProp<std::optional<std::string>>::fromRawValue("ObitrainImageView", "resource", rawProps, sourceProps.resource)),
+    resizeMode(nitro::ReactProp<std::optional<NativeResizeMode>>::fromRawValue("ObitrainImageView", "resizeMode", rawProps, sourceProps.resizeMode)),
+    tintColor(nitro::ReactProp<std::optional<double>>::fromRawValue("ObitrainImageView", "tintColor", rawProps, sourceProps.tintColor)),
+    decodeWidth(nitro::ReactProp<std::optional<double>>::fromRawValue("ObitrainImageView", "decodeWidth", rawProps, sourceProps.decodeWidth)),
+    decodeHeight(nitro::ReactProp<std::optional<double>>::fromRawValue("ObitrainImageView", "decodeHeight", rawProps, sourceProps.decodeHeight)),
+    recyclingKey(nitro::ReactProp<std::optional<std::string>>::fromRawValue("ObitrainImageView", "recyclingKey", rawProps, sourceProps.recyclingKey)),
+    onLoad(nitro::ReactProp<std::optional<std::function<void()>>>::fromRawValue("ObitrainImageView", "onLoad", rawProps, sourceProps.onLoad)),
+    onError(nitro::ReactProp<std::optional<std::function<void(const std::string& /* message */)>>>::fromRawValue("ObitrainImageView", "onError", rawProps, sourceProps.onError)),
+    hybridRef(nitro::ReactProp<std::optional<std::function<void(const std::shared_ptr<HybridObitrainImageViewSpec>& /* ref */)>>>::fromRawValue("ObitrainImageView", "hybridRef", rawProps, sourceProps.hybridRef)) { }
 
   bool HybridObitrainImageViewProps::filterObjectKeys(const std::string& propName) {
     switch (hashString(propName)) {
@@ -142,30 +46,5 @@ namespace margelo::nitro::obitrain_reactnativeimage::views {
       default: return false;
     }
   }
-
-  HybridObitrainImageViewComponentDescriptor::HybridObitrainImageViewComponentDescriptor(const react::ComponentDescriptorParameters& parameters)
-    : ConcreteComponentDescriptor(parameters,
-                                  react::RawPropsParser()) {}
-
-  std::shared_ptr<const react::Props> HybridObitrainImageViewComponentDescriptor::cloneProps(const react::PropsParserContext& context,
-                                                                                             const std::shared_ptr<const react::Props>& props,
-                                                                                             react::RawProps rawProps) const {
-    // 1. Prepare raw props parser
-    rawProps.parse(rawPropsParser_);
-    // 2. Copy props with Nitro's cached copy constructor
-    return HybridObitrainImageViewShadowNode::Props(context, /* & */ rawProps, props);
-  }
-
-#ifdef ANDROID
-  void HybridObitrainImageViewComponentDescriptor::adopt(react::ShadowNode& shadowNode) const {
-    // This is called immediately after `ShadowNode` is created, cloned or in progress.
-    // On Android, we need to wrap props in our state, which gets routed through Java and later unwrapped in JNI/C++.
-    auto& concreteShadowNode = static_cast<HybridObitrainImageViewShadowNode&>(shadowNode);
-    const std::shared_ptr<const HybridObitrainImageViewProps>& constProps = concreteShadowNode.getConcreteSharedProps();
-    const std::shared_ptr<HybridObitrainImageViewProps>& props = std::const_pointer_cast<HybridObitrainImageViewProps>(constProps);
-    HybridObitrainImageViewState state{props};
-    concreteShadowNode.setStateData(std::move(state));
-  }
-#endif
 
 } // namespace margelo::nitro::obitrain_reactnativeimage::views

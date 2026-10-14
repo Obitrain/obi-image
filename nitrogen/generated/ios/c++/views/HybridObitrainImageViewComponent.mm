@@ -37,6 +37,7 @@ using namespace margelo::nitro::obitrain_reactnativeimage::views;
 
 @implementation HybridObitrainImageViewComponent {
   std::shared_ptr<HybridObitrainImageViewSpecSwift> _hybridView;
+  BOOL _didDropView;
 }
 
 + (void) load {
@@ -50,7 +51,7 @@ using namespace margelo::nitro::obitrain_reactnativeimage::views;
 
 - (instancetype) init {
   if (self = [super init]) {
-    _props = HybridObitrainImageViewShadowNode::defaultSharedProps(); // RN >= 0.87 requires default props before updateProps
+    _props = HybridObitrainImageViewShadowNode::defaultSharedProps();
     std::shared_ptr<HybridObitrainImageViewSpec> hybridView = ReactNativeImage::ReactNativeImageAutolinking::createObitrainImageView();
     _hybridView = std::dynamic_pointer_cast<HybridObitrainImageViewSpecSwift>(hybridView);
     [self updateView];
@@ -70,75 +71,103 @@ using namespace margelo::nitro::obitrain_reactnativeimage::views;
   [self setContentView:view];
 }
 
+- (void) notifyOnDropView {
+  // A recycled component can later be invalidated. Notify only once per mount.
+  if (_didDropView) {
+    return;
+  }
+  ReactNativeImage::HybridObitrainImageViewSpec_cxx& swiftPart = _hybridView->getSwiftPart();
+  swiftPart.onDropView();
+  _didDropView = YES;
+}
+
 - (void) updateProps:(const std::shared_ptr<const react::Props>&)props
             oldProps:(const std::shared_ptr<const react::Props>&)oldProps {
+  // A props update marks a newly mounted or still-active component.
+  _didDropView = NO;
+
   // 1. Downcast props
-  const auto& newViewPropsConst = *std::static_pointer_cast<HybridObitrainImageViewProps const>(props);
-  auto& newViewProps = const_cast<HybridObitrainImageViewProps&>(newViewPropsConst);
+  const auto& newViewProps = *std::static_pointer_cast<const HybridObitrainImageViewProps>(props);
+  const auto* oldViewProps = static_cast<const HybridObitrainImageViewProps*>(oldProps.get());
   ReactNativeImage::HybridObitrainImageViewSpec_cxx& swiftPart = _hybridView->getSwiftPart();
 
-  // 2. Update each prop individually
-  swiftPart.beforeUpdate();
+  // 2. Update only props that differ from the previous Props snapshot.
+  const bool hasTransactionPropChanges = oldViewProps == nullptr
+      ? newViewProps.hasAnyProvidedProps()
+      : !newViewProps.hasSameProps(*oldViewProps);
+  if (hasTransactionPropChanges) {
+    swiftPart.beforeUpdate();
 
-  // uri: optional
-  if (newViewProps.uri.isDirty) {
-    swiftPart.setUri(newViewProps.uri.value);
-    newViewProps.uri.isDirty = false;
-  }
-  // resource: optional
-  if (newViewProps.resource.isDirty) {
-    swiftPart.setResource(newViewProps.resource.value);
-    newViewProps.resource.isDirty = false;
-  }
-  // resizeMode: optional
-  if (newViewProps.resizeMode.isDirty) {
-    swiftPart.setResizeMode(newViewProps.resizeMode.value);
-    newViewProps.resizeMode.isDirty = false;
-  }
-  // tintColor: optional
-  if (newViewProps.tintColor.isDirty) {
-    swiftPart.setTintColor(newViewProps.tintColor.value);
-    newViewProps.tintColor.isDirty = false;
-  }
-  // decodeWidth: optional
-  if (newViewProps.decodeWidth.isDirty) {
-    swiftPart.setDecodeWidth(newViewProps.decodeWidth.value);
-    newViewProps.decodeWidth.isDirty = false;
-  }
-  // decodeHeight: optional
-  if (newViewProps.decodeHeight.isDirty) {
-    swiftPart.setDecodeHeight(newViewProps.decodeHeight.value);
-    newViewProps.decodeHeight.isDirty = false;
-  }
-  // recyclingKey: optional
-  if (newViewProps.recyclingKey.isDirty) {
-    swiftPart.setRecyclingKey(newViewProps.recyclingKey.value);
-    newViewProps.recyclingKey.isDirty = false;
-  }
-  // onLoad: optional
-  if (newViewProps.onLoad.isDirty) {
-    swiftPart.setOnLoad(newViewProps.onLoad.value);
-    newViewProps.onLoad.isDirty = false;
-  }
-  // onError: optional
-  if (newViewProps.onError.isDirty) {
-    swiftPart.setOnError(newViewProps.onError.value);
-    newViewProps.onError.isDirty = false;
-  }
-
-  swiftPart.afterUpdate();
-
-  // 3. Update hybridRef if it changed
-  if (newViewProps.hybridRef.isDirty) {
-    // hybridRef changed - call it with new this
-    const auto& maybeFunc = newViewProps.hybridRef.value;
-    if (maybeFunc.has_value()) {
-      maybeFunc.value()(_hybridView);
+    // uri: optional
+    if (oldViewProps == nullptr
+          ? newViewProps.uri.isProvided()
+          : !newViewProps.uri.hasSameValue(oldViewProps->uri)) {
+      swiftPart.setUri(newViewProps.uri.get());
     }
-    newViewProps.hybridRef.isDirty = false;
+    // resource: optional
+    if (oldViewProps == nullptr
+          ? newViewProps.resource.isProvided()
+          : !newViewProps.resource.hasSameValue(oldViewProps->resource)) {
+      swiftPart.setResource(newViewProps.resource.get());
+    }
+    // resizeMode: optional
+    if (oldViewProps == nullptr
+          ? newViewProps.resizeMode.isProvided()
+          : !newViewProps.resizeMode.hasSameValue(oldViewProps->resizeMode)) {
+      swiftPart.setResizeMode(newViewProps.resizeMode.get());
+    }
+    // tintColor: optional
+    if (oldViewProps == nullptr
+          ? newViewProps.tintColor.isProvided()
+          : !newViewProps.tintColor.hasSameValue(oldViewProps->tintColor)) {
+      swiftPart.setTintColor(newViewProps.tintColor.get());
+    }
+    // decodeWidth: optional
+    if (oldViewProps == nullptr
+          ? newViewProps.decodeWidth.isProvided()
+          : !newViewProps.decodeWidth.hasSameValue(oldViewProps->decodeWidth)) {
+      swiftPart.setDecodeWidth(newViewProps.decodeWidth.get());
+    }
+    // decodeHeight: optional
+    if (oldViewProps == nullptr
+          ? newViewProps.decodeHeight.isProvided()
+          : !newViewProps.decodeHeight.hasSameValue(oldViewProps->decodeHeight)) {
+      swiftPart.setDecodeHeight(newViewProps.decodeHeight.get());
+    }
+    // recyclingKey: optional
+    if (oldViewProps == nullptr
+          ? newViewProps.recyclingKey.isProvided()
+          : !newViewProps.recyclingKey.hasSameValue(oldViewProps->recyclingKey)) {
+      swiftPart.setRecyclingKey(newViewProps.recyclingKey.get());
+    }
+    // onLoad: optional
+    if (oldViewProps == nullptr
+          ? newViewProps.onLoad.isProvided()
+          : !newViewProps.onLoad.hasSameValue(oldViewProps->onLoad)) {
+      swiftPart.setOnLoad(newViewProps.onLoad.get());
+    }
+    // onError: optional
+    if (oldViewProps == nullptr
+          ? newViewProps.onError.isProvided()
+          : !newViewProps.onError.hasSameValue(oldViewProps->onError)) {
+      swiftPart.setOnError(newViewProps.onError.get());
+    }
+
+    // Update hybridRef if it changed
+    if (oldViewProps == nullptr
+          ? newViewProps.hybridRef.isProvided()
+          : !newViewProps.hybridRef.hasSameValue(oldViewProps->hybridRef)) {
+      // hybridRef changed - call it with new this
+      const auto& maybeFunc = newViewProps.hybridRef.get();
+      if (maybeFunc.has_value()) {
+        maybeFunc.value()(_hybridView);
+      }
+    }
+
+    swiftPart.afterUpdate();
   }
 
-  // 4. Continue in base class
+  // 3. Continue in base class
   [super updateProps:props oldProps:oldProps];
 }
 
@@ -147,6 +176,7 @@ using namespace margelo::nitro::obitrain_reactnativeimage::views;
 }
 
 - (void)prepareForRecycle {
+  [self notifyOnDropView];
   [super prepareForRecycle];
   ReactNativeImage::HybridObitrainImageViewSpec_cxx& swiftPart = _hybridView->getSwiftPart();
   swiftPart.maybePrepareForRecycle();
@@ -154,8 +184,7 @@ using namespace margelo::nitro::obitrain_reactnativeimage::views;
 
 #ifdef ENABLE_RCT_COMPONENT_VIEW_INVALIDATE
 - (void)invalidate {
-  ReactNativeImage::HybridObitrainImageViewSpec_cxx& swiftPart = _hybridView->getSwiftPart();
-  swiftPart.onDropView();
+  [self notifyOnDropView];
   [super invalidate];
 }
 #endif
