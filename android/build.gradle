@@ -124,4 +124,5 @@ dependencies {
   implementation "io.coil-kt.coil3:coil-core:$coilVersion"
   implementation "io.coil-kt.coil3:coil-network-okhttp:$coilVersion"
   implementation "io.coil-kt.coil3:coil-gif:$coilVersion"
+  implementation "io.coil-kt.coil3:coil-video:$coilVersion"
 }
