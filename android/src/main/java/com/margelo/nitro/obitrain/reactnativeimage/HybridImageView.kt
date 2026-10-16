@@ -3,6 +3,7 @@ package com.margelo.nitro.obitrain.reactnativeimage
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.widget.ImageView
+import androidx.annotation.Keep
 import androidx.appcompat.widget.AppCompatImageView
 import coil3.request.ImageRequest
 import coil3.request.allowHardware
@@ -13,8 +14,9 @@ import com.facebook.proguard.annotations.DoNotStrip
 import com.facebook.react.uimanager.ThemedReactContext
 import com.margelo.nitro.views.RecyclableView
 
+@Keep
 @DoNotStrip
-class HybridImageView(val context: ThemedReactContext) : HybridObitrainImageViewSpec(), RecyclableView {
+class HybridImageView @DoNotStrip constructor(val context: ThemedReactContext) : HybridObitrainImageViewSpec(), RecyclableView {
   // The request target must be the ImageView itself so Coil sizes with Precision.INEXACT.
   override val view: AppCompatImageView = AppCompatImageView(context).apply {
     scaleType = ImageView.ScaleType.CENTER_CROP
