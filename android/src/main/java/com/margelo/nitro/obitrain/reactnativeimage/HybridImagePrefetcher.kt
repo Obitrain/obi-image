@@ -1,5 +1,6 @@
 package com.margelo.nitro.obitrain.reactnativeimage
 
+import androidx.annotation.Keep
 import coil3.decode.BlackholeDecoder
 import coil3.request.CachePolicy
 import coil3.request.ImageRequest
@@ -10,8 +11,9 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 
+@Keep
 @DoNotStrip
-class HybridImagePrefetcher : HybridImagePrefetcherSpec() {
+class HybridImagePrefetcher @DoNotStrip constructor() : HybridImagePrefetcherSpec() {
   override fun prefetch(urls: Array<String>): Promise<Unit> = Promise.async {
     val context = NitroModules.applicationContext ?: return@async
     val loader = ImageLoaders.get(context)
