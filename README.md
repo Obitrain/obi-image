@@ -56,8 +56,9 @@ await prefetch(nextScreen.map((r) => r.thumbUrl)); // warm the disk cache (iOS: 
 `transcode(uri, { maxSize = 2048, quality = 0.85 }): Promise<TranscodedImage>` — re-encodes any decodable image (HEIC,
 PNG, WebP, JPEG…) as a JPEG whose longest side is at most `maxSize` (never upscaled), for uploads to servers that only
 take JPEG. EXIF orientation is applied, metadata (incl. GPS) is dropped and transparency is flattened onto white.
-`uri`: `file://`, `http(s)://`, `ph://` (iOS Photos) or `content://` (Android). Resolves to `{ uri, width, height, size }`
-with a `file://` URI in the temporary/cache directory. HEIC needs Android 9+.
+`uri`: `file://`, `http(s)://`, `ph://` (iOS Photos), `content://` (Android) or a `require()`d asset's
+`Image.resolveAssetSource(...).uri`. Resolves to `{ uri, width, height, size }` with a `file://` URI in the
+temporary/cache directory. HEIC needs Android 9+.
 
 ```tsx
 import { transcode } from '@obitrain/react-native-image';

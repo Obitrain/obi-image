@@ -1,5 +1,6 @@
 package com.margelo.nitro.obitrain.reactnativeimage
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
@@ -32,7 +33,7 @@ class HybridImageTranscoder @DoNotStrip constructor() : HybridImageTranscoderSpe
     val maxSize = options.maxSize.toInt()
     // Coil resolves content://, file:// and http(s), applies EXIF orientation and decodes HEIC on API 28+.
     val request = ImageRequest.Builder(context)
-      .data(uri)
+      .data(source(context, uri))
       .size(maxSize)
       .scale(Scale.FIT)
       .precision(Precision.INEXACT)
@@ -52,6 +53,16 @@ class HybridImageTranscoder @DoNotStrip constructor() : HybridImageTranscoderSpe
       file.outputStream().use { output.compress(Bitmap.CompressFormat.JPEG, (options.quality * 100).roundToInt(), it) }
       TranscodedImage(Uri.fromFile(file).toString(), output.width.toDouble(), output.height.toDouble(), file.length().toDouble())
     }
+  }
+
+  /** Release builds resolve `require()`d assets to a bare resource name (drawable, or raw for HEIC) instead of a URI. */
+  private fun source(context: Context, uri: String): Any {
+    if (uri.contains("://") || uri.startsWith("/")) return uri
+    val resources = context.resources
+    val id = listOf("drawable", "raw")
+      .map { resources.getIdentifier(uri, it, context.packageName) }
+      .firstOrNull { it != 0 }
+    return id ?: throw Error("Unknown image resource: $uri")
   }
 
   /** Coil's inexact decode can land above the target (power-of-two sampling): finish the downscale. */
