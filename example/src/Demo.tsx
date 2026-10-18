@@ -56,7 +56,7 @@ export function Demo({ onBack }: { onBack: () => void }) {
 
   return (
     <SafeAreaView style={screenStyle}>
-      <ScrollView contentContainerStyle={styles.content}>
+      <ScrollView testID="demoScroll" contentContainerStyle={styles.content}>
         <Button testID="back" label="Back" onPress={onBack} />
 
         <Text style={styles.h}>1. Network 70×50 cover (decode-to-size)</Text>
