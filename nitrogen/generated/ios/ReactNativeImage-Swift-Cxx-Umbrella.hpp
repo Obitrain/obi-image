@@ -10,15 +10,24 @@
 // Forward declarations of C++ defined types
 // Forward declaration of `HybridImagePrefetcherSpec` to properly resolve imports.
 namespace margelo::nitro::obitrain_reactnativeimage { class HybridImagePrefetcherSpec; }
+// Forward declaration of `HybridImageTranscoderSpec` to properly resolve imports.
+namespace margelo::nitro::obitrain_reactnativeimage { class HybridImageTranscoderSpec; }
 // Forward declaration of `HybridObitrainImageViewSpec` to properly resolve imports.
 namespace margelo::nitro::obitrain_reactnativeimage { class HybridObitrainImageViewSpec; }
 // Forward declaration of `NativeResizeMode` to properly resolve imports.
 namespace margelo::nitro::obitrain_reactnativeimage { enum class NativeResizeMode; }
+// Forward declaration of `TranscodeOptions` to properly resolve imports.
+namespace margelo::nitro::obitrain_reactnativeimage { struct TranscodeOptions; }
+// Forward declaration of `TranscodedImage` to properly resolve imports.
+namespace margelo::nitro::obitrain_reactnativeimage { struct TranscodedImage; }
 
 // Include C++ defined types
 #include "HybridImagePrefetcherSpec.hpp"
+#include "HybridImageTranscoderSpec.hpp"
 #include "HybridObitrainImageViewSpec.hpp"
 #include "NativeResizeMode.hpp"
+#include "TranscodeOptions.hpp"
+#include "TranscodedImage.hpp"
 #include <NitroModules/Promise.hpp>
 #include <NitroModules/Result.hpp>
 #include <exception>
@@ -40,6 +49,8 @@ namespace margelo::nitro::obitrain_reactnativeimage { enum class NativeResizeMod
 // Forward declarations of Swift defined types
 // Forward declaration of `HybridImagePrefetcherSpec_cxx` to properly resolve imports.
 namespace ReactNativeImage { class HybridImagePrefetcherSpec_cxx; }
+// Forward declaration of `HybridImageTranscoderSpec_cxx` to properly resolve imports.
+namespace ReactNativeImage { class HybridImageTranscoderSpec_cxx; }
 // Forward declaration of `HybridObitrainImageViewSpec_cxx` to properly resolve imports.
 namespace ReactNativeImage { class HybridObitrainImageViewSpec_cxx; }
 

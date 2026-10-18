@@ -35,4 +35,16 @@ public final class ReactNativeImageAutolinking {
   public static func isImagePrefetcherRecyclable() -> Bool {
     return HybridImagePrefetcher.self is any RecyclableView.Type
   }
+  
+  public static func createImageTranscoder() -> bridge.std__shared_ptr_HybridImageTranscoderSpec_ {
+    let hybridObject = HybridImageTranscoder()
+    return { () -> bridge.std__shared_ptr_HybridImageTranscoderSpec_ in
+      let __cxxWrapped = hybridObject.getCxxWrapper()
+      return __cxxWrapped.getCxxPart()
+    }()
+  }
+  
+  public static func isImageTranscoderRecyclable() -> Bool {
+    return HybridImageTranscoder.self is any RecyclableView.Type
+  }
 }

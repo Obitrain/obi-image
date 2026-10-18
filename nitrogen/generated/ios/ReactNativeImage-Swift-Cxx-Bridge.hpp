@@ -10,21 +10,29 @@
 // Forward declarations of C++ defined types
 // Forward declaration of `HybridImagePrefetcherSpec` to properly resolve imports.
 namespace margelo::nitro::obitrain_reactnativeimage { class HybridImagePrefetcherSpec; }
+// Forward declaration of `HybridImageTranscoderSpec` to properly resolve imports.
+namespace margelo::nitro::obitrain_reactnativeimage { class HybridImageTranscoderSpec; }
 // Forward declaration of `HybridObitrainImageViewSpec` to properly resolve imports.
 namespace margelo::nitro::obitrain_reactnativeimage { class HybridObitrainImageViewSpec; }
 // Forward declaration of `NativeResizeMode` to properly resolve imports.
 namespace margelo::nitro::obitrain_reactnativeimage { enum class NativeResizeMode; }
+// Forward declaration of `TranscodedImage` to properly resolve imports.
+namespace margelo::nitro::obitrain_reactnativeimage { struct TranscodedImage; }
 
 // Forward declarations of Swift defined types
 // Forward declaration of `HybridImagePrefetcherSpec_cxx` to properly resolve imports.
 namespace ReactNativeImage { class HybridImagePrefetcherSpec_cxx; }
+// Forward declaration of `HybridImageTranscoderSpec_cxx` to properly resolve imports.
+namespace ReactNativeImage { class HybridImageTranscoderSpec_cxx; }
 // Forward declaration of `HybridObitrainImageViewSpec_cxx` to properly resolve imports.
 namespace ReactNativeImage { class HybridObitrainImageViewSpec_cxx; }
 
 // Include C++ defined types
 #include "HybridImagePrefetcherSpec.hpp"
+#include "HybridImageTranscoderSpec.hpp"
 #include "HybridObitrainImageViewSpec.hpp"
 #include "NativeResizeMode.hpp"
+#include "TranscodedImage.hpp"
 #include <NitroModules/Promise.hpp>
 #include <NitroModules/PromiseHolder.hpp>
 #include <NitroModules/Result.hpp>
@@ -127,6 +135,61 @@ namespace margelo::nitro::obitrain_reactnativeimage::bridge::swift {
   }
   inline Result_std__shared_ptr_Promise_void___ create_Result_std__shared_ptr_Promise_void___(const std::exception_ptr& error) noexcept {
     return Result<std::shared_ptr<Promise<void>>>::withError(error);
+  }
+  
+  // pragma MARK: std::shared_ptr<Promise<TranscodedImage>>
+  /**
+   * Specialized version of `std::shared_ptr<Promise<TranscodedImage>>`.
+   */
+  using std__shared_ptr_Promise_TranscodedImage__ = std::shared_ptr<Promise<TranscodedImage>>;
+  inline std::shared_ptr<Promise<TranscodedImage>> create_std__shared_ptr_Promise_TranscodedImage__() noexcept {
+    return Promise<TranscodedImage>::create();
+  }
+  inline PromiseHolder<TranscodedImage> wrap_std__shared_ptr_Promise_TranscodedImage__(std::shared_ptr<Promise<TranscodedImage>> promise) noexcept {
+    return PromiseHolder<TranscodedImage>(std::move(promise));
+  }
+  
+  // pragma MARK: std::function<void(const TranscodedImage& /* result */)>
+  /**
+   * Specialized version of `std::function<void(const TranscodedImage&)>`.
+   */
+  using Func_void_TranscodedImage = std::function<void(const TranscodedImage& /* result */)>;
+  /**
+   * Wrapper class for a `std::function<void(const TranscodedImage& / * result * /)>`, this can be used from Swift.
+   */
+  class Func_void_TranscodedImage_Wrapper final {
+  public:
+    explicit Func_void_TranscodedImage_Wrapper(std::function<void(const TranscodedImage& /* result */)>&& func): _function(std::make_unique<std::function<void(const TranscodedImage& /* result */)>>(std::move(func))) {}
+    inline void call(TranscodedImage result) const noexcept {
+      _function->operator()(result);
+    }
+  private:
+    std::unique_ptr<std::function<void(const TranscodedImage& /* result */)>> _function;
+  } SWIFT_NONCOPYABLE;
+  Func_void_TranscodedImage create_Func_void_TranscodedImage(void* NON_NULL swiftClosureWrapper) noexcept;
+  inline Func_void_TranscodedImage_Wrapper wrap_Func_void_TranscodedImage(Func_void_TranscodedImage value) noexcept {
+    return Func_void_TranscodedImage_Wrapper(std::move(value));
+  }
+  
+  // pragma MARK: std::shared_ptr<HybridImageTranscoderSpec>
+  /**
+   * Specialized version of `std::shared_ptr<HybridImageTranscoderSpec>`.
+   */
+  using std__shared_ptr_HybridImageTranscoderSpec_ = std::shared_ptr<HybridImageTranscoderSpec>;
+  std::shared_ptr<HybridImageTranscoderSpec> create_std__shared_ptr_HybridImageTranscoderSpec_(void* NON_NULL swiftUnsafePointer) noexcept;
+  void* NON_NULL get_std__shared_ptr_HybridImageTranscoderSpec_(std__shared_ptr_HybridImageTranscoderSpec_ cppType);
+  
+  // pragma MARK: std::weak_ptr<HybridImageTranscoderSpec>
+  using std__weak_ptr_HybridImageTranscoderSpec_ = std::weak_ptr<HybridImageTranscoderSpec>;
+  inline std__weak_ptr_HybridImageTranscoderSpec_ weakify_std__shared_ptr_HybridImageTranscoderSpec_(const std::shared_ptr<HybridImageTranscoderSpec>& strong) noexcept { return strong; }
+  
+  // pragma MARK: Result<std::shared_ptr<Promise<TranscodedImage>>>
+  using Result_std__shared_ptr_Promise_TranscodedImage___ = Result<std::shared_ptr<Promise<TranscodedImage>>>;
+  inline Result_std__shared_ptr_Promise_TranscodedImage___ create_Result_std__shared_ptr_Promise_TranscodedImage___(const std::shared_ptr<Promise<TranscodedImage>>& value) noexcept {
+    return Result<std::shared_ptr<Promise<TranscodedImage>>>::withValue(value);
+  }
+  inline Result_std__shared_ptr_Promise_TranscodedImage___ create_Result_std__shared_ptr_Promise_TranscodedImage___(const std::exception_ptr& error) noexcept {
+    return Result<std::shared_ptr<Promise<TranscodedImage>>>::withError(error);
   }
   
   // pragma MARK: std::optional<std::string>

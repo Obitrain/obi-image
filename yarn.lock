@@ -2335,6 +2335,7 @@ __metadata:
     "@babel/preset-env": "npm:^7.29.7"
     "@babel/runtime": "npm:^7.29.10"
     "@d11/react-native-fast-image": "npm:8.13.0"
+    "@react-native-camera-roll/camera-roll": "npm:7.10.2"
     "@types/react": "npm:^19.3.0"
     "@types/react-refresh": "npm:^0"
     babel-preset-expo: "npm:~58.0.0"
@@ -2391,6 +2392,15 @@ __metadata:
   version: 0.3.6
   resolution: "@pkgr/core@npm:0.3.6"
   checksum: 10c0/153f0f4563f505faeba13c733efa0e05e467ce1c6b941055a5fd3b4560da60fbf1dff4b11da0075f034ddda11f2842b90395f60895dde5825875b616edccc11c
+  languageName: node
+  linkType: hard
+
+"@react-native-camera-roll/camera-roll@npm:7.10.2":
+  version: 7.10.2
+  resolution: "@react-native-camera-roll/camera-roll@npm:7.10.2"
+  peerDependencies:
+    react-native: ">=0.59"
+  checksum: 10c0/840d37102ce1f6291036e224e2d23757b71279b10aafb5feef59509bcfa16c362934774d01c53579f12673209298ff0c6fcd1e1106b97992a812a752007104f5
   languageName: node
   linkType: hard
 

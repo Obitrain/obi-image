@@ -75,7 +75,7 @@ open class HybridObitrainImageViewSpec_cxx {
    */
   public func getCxxPart() -> bridge.std__shared_ptr_HybridObitrainImageViewSpec_ {
     let cachedCxxPart = self.__cxxPart.lock()
-    if Bool(fromCxx: cachedCxxPart) {
+    if cachedCxxPart.use_count() > 0 {
       return cachedCxxPart
     } else {
       let newCxxPart = bridge.create_std__shared_ptr_HybridObitrainImageViewSpec_(self.toUnsafe())

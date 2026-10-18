@@ -4,7 +4,7 @@ A fast image component for React Native, built as a [**Nitro view**](https://nit
 [**Kingfisher**](https://github.com/onevcat/Kingfisher) on iOS and [**Coil 3**](https://github.com/coil-kt/coil) on Android.
 It exposes a [FastImage](https://github.com/DylanVann/react-native-fast-image)-compatible API and adds what FastImage lacks:
 **decode-to-size** — every image is decoded at the view's pixel size (ImageIO `CGImageSourceCreateThumbnailAtIndex` /
-Coil `size()`), never at full resolution — plus a `prefetch()` API.
+Coil `size()`), never at full resolution — plus `prefetch()` and `transcode()` APIs.
 
 
 ## Requirements
@@ -53,8 +53,21 @@ await prefetch(nextScreen.map((r) => r.thumbUrl)); // warm the disk cache (iOS: 
 
 `prefetch(urls: string[]): Promise<void>` — fetches into the cache; per-URL failures are ignored (they just stay uncached).
 
+`transcode(uri, { maxSize = 2048, quality = 0.85 }): Promise<TranscodedImage>` — re-encodes any decodable image (HEIC,
+PNG, WebP, JPEG…) as a JPEG whose longest side is at most `maxSize` (never upscaled), for uploads to servers that only
+take JPEG. EXIF orientation is applied, metadata (incl. GPS) is dropped and transparency is flattened onto white.
+`uri`: `file://`, `http(s)://`, `ph://` (iOS Photos) or `content://` (Android). Resolves to `{ uri, width, height, size }`
+with a `file://` URI in the temporary/cache directory. HEIC needs Android 9+.
+
+```tsx
+import { transcode } from '@obitrain/react-native-image';
+
+const jpeg = await transcode(pickedPhoto.uri, { maxSize: 1024 });
+upload({ uri: jpeg.uri, type: 'image/jpeg', name: 'image.jpg' });
+```
+
 Not supported (yet): `priority`, `cacheControl`, `headers`, `defaultSource`, `onLoad`, animated GIF playback on iOS
-(the first frame is shown), `ph://` Photos URIs.
+(the first frame is shown), `ph://` Photos URIs in `<Image>` (`transcode()` accepts them).
 
 ## How it works
 
@@ -104,7 +117,8 @@ yarn example ios                        # or: yarn example android
 ```
 
 [`example/`](example/README.md) (Expo SDK 58, RN 0.88.0) has a **Demo** screen exercising the whole surface: decode-to-size, `require()` + tint, tappable
-overlay, `onError`, prefetch and a 200-row recycling list.
+overlay, `onError`, prefetch and a 200-row recycling list, and a **Transcode** screen (HEIC/WebP/PNG/https → JPEG at
+a chosen max size, with before/after sizes).
 
 ## Releasing
 

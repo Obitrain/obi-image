@@ -12,6 +12,7 @@
 
 #include "HybridObitrainImageViewSpecSwift.hpp"
 #include "HybridImagePrefetcherSpecSwift.hpp"
+#include "HybridImageTranscoderSpecSwift.hpp"
 
 @interface ReactNativeImageAutolinking : NSObject
 @end
@@ -33,6 +34,13 @@
     "ImagePrefetcher",
     []() -> std::shared_ptr<HybridObject> {
       std::shared_ptr<HybridImagePrefetcherSpec> hybridObject = ReactNativeImage::ReactNativeImageAutolinking::createImagePrefetcher();
+      return hybridObject;
+    }
+  );
+  HybridObjectRegistry::registerHybridObjectConstructor(
+    "ImageTranscoder",
+    []() -> std::shared_ptr<HybridObject> {
+      std::shared_ptr<HybridImageTranscoderSpec> hybridObject = ReactNativeImage::ReactNativeImageAutolinking::createImageTranscoder();
       return hybridObject;
     }
   );
