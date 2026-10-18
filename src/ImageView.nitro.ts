@@ -7,12 +7,12 @@ import type {
 export type NativeResizeMode = 'cover' | 'contain' | 'center' | 'stretch';
 
 export interface ImageViewProps extends HybridViewProps {
-  /** http(s):// or file:// URL. */
+  /** http(s):// or file:// URL; '' = none. */
   uri?: string;
-  /** Bundled asset name (iOS `UIImage(named:)`, Android drawable). */
+  /** Bundled asset name (iOS `UIImage(named:)`, Android drawable); '' = none. */
   resource?: string;
   resizeMode?: NativeResizeMode;
-  /** ARGB int from `processColor()`; undefined = no tint. */
+  /** ARGB int from `processColor()`; 0 (fully transparent) = no tint. */
   tintColor?: number;
   /** Decode target in PIXELS; <= 0 means "not laid out yet", native waits. */
   decodeWidth?: number;

@@ -66,7 +66,7 @@ final class HybridImageView: HybridObitrainImageViewSpec, RecyclableView {
       if view.image == nil { onError?("Bundled image not found: \(name)") } else { onLoad?() }
       return
     }
-    guard let s = uri, let url = URL(string: s) else { view.image = nil; return }
+    guard let s = uri, !s.isEmpty, let url = URL(string: s) else { view.image = nil; return }
     // Kingfisher decodes to kCGImageSourceThumbnailMaxPixelSize = max(size) * scaleFactor.
     // JS sends pixels, so scaleFactor(1). cover gets headroom for non-matching aspect ratios.
     let headroom = (resizeMode ?? .cover) == .cover ? 1.25 : 1.0 // cover: shorter side must still fill the view
@@ -99,7 +99,7 @@ final class HybridImageView: HybridObitrainImageViewSpec, RecyclableView {
 
   @MainActor private func applyTint() {
     guard let image = view.image else { return }
-    if let t = tintColor {
+    if let t = tintColor, t != 0 { // 0 = no tint (JS always sends the prop)
       view.tintColor = Self.color(argb: t)
       if image.renderingMode != .alwaysTemplate { view.image = image.withRenderingMode(.alwaysTemplate) }
     } else if image.renderingMode == .alwaysTemplate {

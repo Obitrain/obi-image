@@ -23,6 +23,7 @@ export function Demo({ onBack }: { onBack: () => void }) {
   const [error, setError] = useState('');
   const [showList, setShowList] = useState(false);
   const [prefetched, setPrefetched] = useState('');
+  const [cleared, setCleared] = useState(false);
 
   if (showList) {
     return (
@@ -106,7 +107,25 @@ export function Demo({ onBack }: { onBack: () => void }) {
         />
         <Text testID="err">{error || 'no error yet'}</Text>
 
-        <Text style={styles.h}>5. Recycling list</Text>
+        <Text style={styles.h}>5. Clearing the source</Text>
+        <Image
+          testID="clearableImage"
+          source={cleared ? {} : { uri: `${ASSET}?demo=5` }}
+          tintColor={cleared ? undefined : 'rgba(255,0,0,0.3)'}
+          recyclingKey={cleared ? undefined : 'clearable'}
+          onLoad={cleared ? undefined : () => {}}
+          style={styles.thumb}
+        />
+        <Button
+          testID="clearSource"
+          label="Clear source, tint and callbacks"
+          onPress={() => setCleared(true)}
+        />
+        <Text testID="cleared">
+          {cleared ? 'source cleared' : 'source set'}
+        </Text>
+
+        <Text style={styles.h}>6. Recycling list</Text>
         <Button
           testID="prefetch"
           label="Prefetch first 20 rows"
