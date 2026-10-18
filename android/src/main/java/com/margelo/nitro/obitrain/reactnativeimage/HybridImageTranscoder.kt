@@ -43,7 +43,7 @@ class HybridImageTranscoder @DoNotStrip constructor() : HybridImageTranscoderSpe
       .build()
     val bitmap = when (val result = ImageLoaders.get(context).execute(request)) {
       is SuccessResult -> result.image.toBitmap()
-      is ErrorResult -> throw Error("Could not decode $uri", result.throwable)
+      is ErrorResult -> throw Error("Could not load $uri: ${result.throwable.message}", result.throwable)
     }
     withContext(Dispatchers.IO) {
       val output = opaque(fit(bitmap, maxSize))

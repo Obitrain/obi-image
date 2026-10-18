@@ -22,7 +22,15 @@ final class HybridImageTranscoder: HybridImageTranscoderSpec {
     let url = uri.hasPrefix("/") ? URL(fileURLWithPath: uri) : URL(string: uri)
     guard let url else { throw TranscodeError("Invalid URI: \(uri)") }
     if url.isFileURL { return try Data(contentsOf: url) }
-    let (data, _) = try await URLSession.shared.data(from: url)
+    let (data, response): (Data, URLResponse)
+    do {
+      (data, response) = try await URLSession.shared.data(from: url)
+    } catch {
+      throw TranscodeError("Could not download \(uri): \(error.localizedDescription)")
+    }
+    if let status = (response as? HTTPURLResponse)?.statusCode, !(200..<300).contains(status) {
+      throw TranscodeError("Could not download \(uri): HTTP \(status)")
+    }
     return data
   }
 
