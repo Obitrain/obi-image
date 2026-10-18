@@ -121,6 +121,22 @@ yarn example ios                        # or: yarn example android
 overlay, `onError`, prefetch and a 200-row recycling list, and a **Transcode** screen (HEIC/WebP/PNG/https → JPEG at
 a chosen max size, with before/after sizes).
 
+### End-to-end tests
+
+[Detox](https://wix.github.io/Detox/) specs in `example/e2e/` tap every button of the example on **Release** builds
+(JS and assets bundled, no Metro); CI runs them on an iOS simulator and an Android emulator (`e2e-ios`, `e2e-android`).
+
+```bash
+brew tap wix/brew && brew install applesimutils   # iOS permissions
+yarn example prebuild --clean
+yarn example e2e:build:ios && yarn example e2e:ios            # iPhone 17 simulator (DETOX_IOS_DEVICE)
+yarn example e2e:build:android && yarn example e2e:android    # Medium_Phone AVD (DETOX_AVD; DETOX_ANDROID_ARCH=x86_64 on Intel)
+```
+
+`example/plugins/with-detox.js` adds the Android wiring Detox needs (Detox AAR, `DetoxTest`, localhost cleartext for
+Release); iOS needs none. The bundled HEIC sample is `photo-heic.bin`: Android Release builds reject `.heic` drawables,
+so it ships as a raw resource instead.
+
 ## Releasing
 
 Merging to `main` never publishes. To release, open a release PR:
