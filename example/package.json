@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@d11/react-native-fast-image": "8.13.0",
+    "@react-native-camera-roll/camera-roll": "7.10.2",
     "expo": "~58.0.14",
     "expo-build-properties": "~58.0.11",
     "expo-dev-client": "~58.0.14",

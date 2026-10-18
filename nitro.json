@@ -32,6 +32,16 @@
         "language": "kotlin",
         "implementationClassName": "HybridImagePrefetcher"
       }
+    },
+    "ImageTranscoder": {
+      "ios": {
+        "language": "swift",
+        "implementationClassName": "HybridImageTranscoder"
+      },
+      "android": {
+        "language": "kotlin",
+        "implementationClassName": "HybridImageTranscoder"
+      }
     }
   },
   "ignorePaths": [

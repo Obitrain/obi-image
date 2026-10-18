@@ -9,6 +9,7 @@
 
 // Include C++ implementation defined types
 #include "HybridImagePrefetcherSpecSwift.hpp"
+#include "HybridImageTranscoderSpecSwift.hpp"
 #include "HybridObitrainImageViewSpecSwift.hpp"
 #include "ReactNativeImage-Swift-Cxx-Umbrella.hpp"
 #include <NitroModules/NitroDefines.hpp>
@@ -44,6 +45,30 @@ namespace margelo::nitro::obitrain_reactnativeimage::bridge::swift {
     }
     #endif
     ReactNativeImage::HybridImagePrefetcherSpec_cxx& swiftPart = swiftWrapper->getSwiftPart();
+    return swiftPart.toUnsafe();
+  }
+  
+  // pragma MARK: std::function<void(const TranscodedImage& /* result */)>
+  Func_void_TranscodedImage create_Func_void_TranscodedImage(void* NON_NULL swiftClosureWrapper) noexcept {
+    auto swiftClosure = ReactNativeImage::Func_void_TranscodedImage::fromUnsafe(swiftClosureWrapper);
+    return [swiftClosure = std::move(swiftClosure)](const TranscodedImage& result) mutable -> void {
+      swiftClosure.call(result);
+    };
+  }
+  
+  // pragma MARK: std::shared_ptr<HybridImageTranscoderSpec>
+  std::shared_ptr<HybridImageTranscoderSpec> create_std__shared_ptr_HybridImageTranscoderSpec_(void* NON_NULL swiftUnsafePointer) noexcept {
+    ReactNativeImage::HybridImageTranscoderSpec_cxx swiftPart = ReactNativeImage::HybridImageTranscoderSpec_cxx::fromUnsafe(swiftUnsafePointer);
+    return std::make_shared<margelo::nitro::obitrain_reactnativeimage::HybridImageTranscoderSpecSwift>(swiftPart);
+  }
+  void* NON_NULL get_std__shared_ptr_HybridImageTranscoderSpec_(std__shared_ptr_HybridImageTranscoderSpec_ cppType) {
+    std::shared_ptr<margelo::nitro::obitrain_reactnativeimage::HybridImageTranscoderSpecSwift> swiftWrapper = std::dynamic_pointer_cast<margelo::nitro::obitrain_reactnativeimage::HybridImageTranscoderSpecSwift>(cppType);
+    #ifdef NITRO_DEBUG
+    if (swiftWrapper == nullptr) [[unlikely]] {
+      throw std::runtime_error("Class \"HybridImageTranscoderSpec\" is not implemented in Swift!");
+    }
+    #endif
+    ReactNativeImage::HybridImageTranscoderSpec_cxx& swiftPart = swiftWrapper->getSwiftPart();
     return swiftPart.toUnsafe();
   }
   

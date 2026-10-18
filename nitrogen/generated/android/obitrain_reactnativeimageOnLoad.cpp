@@ -16,6 +16,7 @@
 #include <NitroModules/HybridObjectRegistry.hpp>
 
 #include "JHybridImagePrefetcherSpec.hpp"
+#include "JHybridImageTranscoderSpec.hpp"
 #include "JHybridObitrainImageViewSpec.hpp"
 #include "JFunc_void.hpp"
 #include "JFunc_void_std__string.hpp"
@@ -46,6 +47,14 @@ struct JHybridImagePrefetcherSpecImpl: public jni::JavaClass<JHybridImagePrefetc
     return javaPart->getJHybridImagePrefetcherSpec();
   }
 };
+struct JHybridImageTranscoderSpecImpl: public jni::JavaClass<JHybridImageTranscoderSpecImpl, JHybridImageTranscoderSpec::JavaPart> {
+  static constexpr auto kJavaDescriptor = "Lcom/margelo/nitro/obitrain/reactnativeimage/HybridImageTranscoder;";
+  static std::shared_ptr<JHybridImageTranscoderSpec> create() {
+    static const auto constructorFn = javaClassStatic()->getConstructor<JHybridImageTranscoderSpecImpl::javaobject()>();
+    jni::local_ref<JHybridImageTranscoderSpec::JavaPart> javaPart = javaClassStatic()->newObject(constructorFn);
+    return javaPart->getJHybridImageTranscoderSpec();
+  }
+};
 
 void registerAllNatives() {
   using namespace margelo::nitro;
@@ -53,6 +62,7 @@ void registerAllNatives() {
 
   // Register native JNI methods
   margelo::nitro::obitrain_reactnativeimage::JHybridImagePrefetcherSpec::CxxPart::registerNatives();
+  margelo::nitro::obitrain_reactnativeimage::JHybridImageTranscoderSpec::CxxPart::registerNatives();
   margelo::nitro::obitrain_reactnativeimage::JHybridObitrainImageViewSpec::CxxPart::registerNatives();
   margelo::nitro::obitrain_reactnativeimage::JFunc_void_cxx::registerNatives();
   margelo::nitro::obitrain_reactnativeimage::JFunc_void_std__string_cxx::registerNatives();
@@ -69,6 +79,12 @@ void registerAllNatives() {
     "ImagePrefetcher",
     []() -> std::shared_ptr<HybridObject> {
       return JHybridImagePrefetcherSpecImpl::create();
+    }
+  );
+  HybridObjectRegistry::registerHybridObjectConstructor(
+    "ImageTranscoder",
+    []() -> std::shared_ptr<HybridObject> {
+      return JHybridImageTranscoderSpecImpl::create();
     }
   );
 }

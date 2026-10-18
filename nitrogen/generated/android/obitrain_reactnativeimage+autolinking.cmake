@@ -34,10 +34,12 @@ target_sources(
   ../nitrogen/generated/android/obitrain_reactnativeimageOnLoad.cpp
   # Shared Nitrogen C++ sources
   ../nitrogen/generated/shared/c++/HybridImagePrefetcherSpec.cpp
+  ../nitrogen/generated/shared/c++/HybridImageTranscoderSpec.cpp
   ../nitrogen/generated/shared/c++/HybridObitrainImageViewSpec.cpp
   ../nitrogen/generated/shared/c++/views/HybridObitrainImageViewComponent.cpp
   # Android-specific Nitrogen C++ sources
   ../nitrogen/generated/android/c++/JHybridImagePrefetcherSpec.cpp
+  ../nitrogen/generated/android/c++/JHybridImageTranscoderSpec.cpp
   ../nitrogen/generated/android/c++/JHybridObitrainImageViewSpec.cpp
   ../nitrogen/generated/android/c++/views/JHybridObitrainImageViewStateUpdater.cpp
 )

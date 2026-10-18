@@ -8,6 +8,7 @@ import {
   Pressable,
 } from 'react-native';
 import { Demo } from './Demo';
+import { Transcode } from './Transcode';
 import {
   Bench,
   type BenchMode,
@@ -17,7 +18,7 @@ import {
 
 type Job = { variant: BenchVariant; run: string; cached: boolean };
 
-type Screen = 'home' | 'demo' | 'bench';
+type Screen = 'home' | 'demo' | 'bench' | 'transcode';
 
 export default function App() {
   const [screen, setScreen] = useState<Screen>('home');
@@ -48,6 +49,8 @@ export default function App() {
   }, []);
 
   if (screen === 'demo') return <Demo onBack={() => setScreen('home')} />;
+  if (screen === 'transcode')
+    return <Transcode onBack={() => setScreen('home')} />;
   if (screen === 'bench')
     return (
       <Bench
@@ -76,6 +79,11 @@ export default function App() {
           testID="goDemo"
           label="Demo (vertical slice)"
           onPress={() => setScreen('demo')}
+        />
+        <Button
+          testID="goTranscode"
+          label="Transcode (HEIC/WebP/PNG → JPEG)"
+          onPress={() => setScreen('transcode')}
         />
         <Text style={styles.section}>Bench variant</Text>
         <View style={styles.row}>

@@ -6,11 +6,18 @@
     "scheme": "obi-image-example",
     "ios": {
       "bundleIdentifier": "obitrain.reactnativeimage.example",
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "Transcode a photo from your library"
+      }
     },
     "android": {
       "package": "obitrain.reactnativeimage.example",
-      "allowBackup": false
+      "allowBackup": false,
+      "permissions": [
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.READ_MEDIA_IMAGES"
+      ]
     },
     "plugins": [
       "expo-dev-client",

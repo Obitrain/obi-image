@@ -16,4 +16,7 @@ const config = withMetroConfig(getDefaultConfig(__dirname), {
   conditions: ['obitrain-react-native-image-source'],
 });
 
+// HEIC sample for the transcode screen
+config.resolver.assetExts.push('heic');
+
 module.exports = config;
