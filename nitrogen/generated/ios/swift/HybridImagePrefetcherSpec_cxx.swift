@@ -75,7 +75,7 @@ open class HybridImagePrefetcherSpec_cxx {
    */
   public func getCxxPart() -> bridge.std__shared_ptr_HybridImagePrefetcherSpec_ {
     let cachedCxxPart = self.__cxxPart.lock()
-    if cachedCxxPart.use_count() > 0 {
+    if Bool(fromCxx: cachedCxxPart) {
       return cachedCxxPart
     } else {
       let newCxxPart = bridge.create_std__shared_ptr_HybridImagePrefetcherSpec_(self.toUnsafe())
