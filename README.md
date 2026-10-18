@@ -103,7 +103,7 @@ yarn example start                      # Expo development server on port 8083
 yarn example ios                        # or: yarn example android
 ```
 
-[`example/`](example/README.md) (Expo SDK 57, RN 0.86.3) has a **Demo** screen exercising the whole surface: decode-to-size, `require()` + tint, tappable
+[`example/`](example/README.md) (Expo SDK 58, RN 0.88.0) has a **Demo** screen exercising the whole surface: decode-to-size, `require()` + tint, tappable
 overlay, `onError`, prefetch and a 200-row recycling list.
 
 ## Releasing

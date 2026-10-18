@@ -1,6 +1,6 @@
 # Expo development example
 
-This example uses Expo SDK 57 and a development build containing the local native library. Expo Go cannot load it.
+This example uses Expo SDK 58 and a development build containing the local native library. Expo Go cannot load it.
 Run these commands from the repository root:
 
 ```sh
