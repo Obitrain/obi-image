@@ -46,6 +46,7 @@ describe('Demo', () => {
       .whileElement(by.id('recycleList'))
       .scroll(1000, 'down', NaN, 0.5);
     await element(by.id('back')).tap();
-    await expect(element(by.id('goList'))).toBeVisible();
+    // The Demo screen remounts scrolled to the top.
+    await scrollTo('goList');
   });
 });
