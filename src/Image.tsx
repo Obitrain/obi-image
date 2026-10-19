@@ -97,10 +97,17 @@ function ImageImpl({
     [onError]
   );
   const scale = PixelRatio.get();
+  // Fabric clears a removed prop by sending null, which Nitro rejects for optional props ("Value is null,
+  // expected a String") and crashes the app. Remount instead whenever a prop goes from set to unset.
+  // Drop once a Nitro release ships https://github.com/margelo/nitro/pull/1515 (issue #1184).
+  const presence = [uri, resource, tint, recyclingKey, onLoadCb, onErrorCb]
+    .map((value) => (value === undefined ? 0 : 1))
+    .join('');
 
   return (
     <View {...rest} style={[styles.container, style]} onLayout={onLayout}>
       <NativeImageView
+        key={presence}
         style={StyleSheet.absoluteFill}
         uri={uri}
         resource={resource}
