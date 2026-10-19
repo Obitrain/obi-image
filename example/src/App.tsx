@@ -1,12 +1,5 @@
 import { useCallback, useRef, useState } from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  Pressable,
-} from 'react-native';
+import { ScrollView, StyleSheet, Text, View, Pressable } from 'react-native';
 import { Demo } from './Demo';
 import { Transcode } from './Transcode';
 import {
@@ -15,6 +8,8 @@ import {
   type BenchVariant,
   type BenchResult,
 } from './Bench';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { screenStyle } from './screen';
 
 type Job = { variant: BenchVariant; run: string; cached: boolean };
 
@@ -72,7 +67,7 @@ export default function App() {
     );
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={screenStyle}>
       <ScrollView contentContainerStyle={styles.content}>
         <Text style={styles.title}>@obitrain/react-native-image</Text>
         <Button
@@ -284,7 +279,6 @@ const styles = StyleSheet.create({
   p95Bar: { position: 'absolute', height: 12, backgroundColor: '#9bc9c7' },
   medianBar: { position: 'absolute', height: 12, backgroundColor: '#0E6E6B' },
   history: { gap: 8 },
-  container: { flex: 1, backgroundColor: '#fff' },
   content: { padding: 16, gap: 12 },
   title: { fontSize: 18, fontWeight: '600', marginBottom: 8 },
   section: { fontSize: 13, color: '#666', marginTop: 8 },

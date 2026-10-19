@@ -26,10 +26,12 @@
         "expo-build-properties",
         {
           "android": {
-            "kotlinVersion": "2.2.0"
+            "kotlinVersion": "2.2.0",
+            "extraProguardRules": "# Detox runs its test APK against the minified release app, which must keep the Kotlin runtime it relies on\n-keep class kotlin.** { *; }\n-keep class kotlinx.coroutines.** { *; }\n# Glide (react-native-fast-image, bench only) instantiates its modules by reflection\n-keep public class * implements com.bumptech.glide.module.GlideModule { <init>(...); }\n-keep class * extends com.bumptech.glide.module.AppGlideModule { <init>(...); }"
           }
         }
-      ]
+      ],
+      "./plugins/with-detox"
     ]
   }
 }

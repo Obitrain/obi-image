@@ -1,10 +1,9 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { CameraRoll } from '@react-native-camera-roll/camera-roll';
 import {
   Image as RNImage,
   PermissionsAndroid,
   Platform,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
@@ -17,6 +16,8 @@ import {
 } from '@obitrain/react-native-image';
 import { Button } from './App';
 import { ASSET } from './Demo';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { screenStyle } from './screen';
 
 type Sample = { id: string; label: string; uri: () => string; bytes: number };
 
@@ -28,7 +29,7 @@ const SAMPLES: Sample[] = [
   {
     id: 'heic',
     label: 'HEIC 1280×720',
-    uri: asset(require('./assets/photo.heic')),
+    uri: asset(require('./assets/photo-heic.bin')),
     bytes: 93_548,
   },
   {
@@ -74,6 +75,8 @@ async function latestPhoto(): Promise<Sample> {
 const MAX_SIZES = [256, 512, 1024];
 
 type Run = {
+  /** Stable per-run id for testIDs: rows are listed newest first. */
+  n: number;
   sample: Sample;
   result?: TranscodedImage;
   ms: number;
@@ -83,6 +86,7 @@ type Run = {
 export function Transcode({ onBack }: { onBack: () => void }) {
   const [maxSize, setMaxSize] = useState(512);
   const [runs, setRuns] = useState<Run[]>([]);
+  const seq = useRef(0);
 
   const run = async (pick: Sample | (() => Promise<Sample>)) => {
     let sample: Sample = {
@@ -97,19 +101,19 @@ export function Transcode({ onBack }: { onBack: () => void }) {
       start = Date.now();
       const result = await transcode(sample.uri(), { maxSize, quality: 0.85 });
       setRuns((previous) => [
-        { sample, result, ms: Date.now() - start },
+        { n: seq.current++, sample, result, ms: Date.now() - start },
         ...previous,
       ]);
     } catch (e) {
       setRuns((previous) => [
-        { sample, ms: Date.now() - start, error: String(e) },
+        { n: seq.current++, sample, ms: Date.now() - start, error: String(e) },
         ...previous,
       ]);
     }
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={screenStyle}>
       <ScrollView contentContainerStyle={styles.content}>
         <Button testID="back" label="Back" onPress={onBack} />
         <Text style={styles.h}>Max size (longest side)</Text>
@@ -138,8 +142,12 @@ export function Transcode({ onBack }: { onBack: () => void }) {
           label="Latest library photo"
           onPress={() => run(latestPhoto)}
         />
-        {runs.map((entry, i) => (
-          <View key={i} style={styles.result} testID={`result-${i}`}>
+        {runs.map((entry) => (
+          <View
+            key={entry.n}
+            style={styles.result}
+            testID={`result-${entry.n}`}
+          >
             {entry.result && (
               <Image
                 source={{ uri: entry.result.uri }}
@@ -148,18 +156,25 @@ export function Transcode({ onBack }: { onBack: () => void }) {
               />
             )}
             <View style={styles.meta}>
-              <Text style={styles.label}>{entry.sample.label}</Text>
+              <Text testID={`resultLabel-${entry.n}`} style={styles.label}>
+                {entry.sample.label}
+              </Text>
               {entry.result ? (
-                <Text testID={`resultText-${i}`}>
-                  {entry.result.width}×{entry.result.height} ·{' '}
-                  {formatBytes(entry.result.size)}
-                  {entry.sample.bytes > 0 &&
-                    ` (was ${formatBytes(entry.sample.bytes)})`}
-                  {'\n'}
-                  {entry.ms.toFixed(0)} ms
-                </Text>
+                <>
+                  <Text testID={`resultSize-${entry.n}`}>
+                    {`${entry.result.width}×${entry.result.height}`}
+                  </Text>
+                  <Text>
+                    {formatBytes(entry.result.size)}
+                    {entry.sample.bytes > 0 &&
+                      ` (was ${formatBytes(entry.sample.bytes)})`}{' '}
+                    · {entry.ms.toFixed(0)} ms
+                  </Text>
+                </>
               ) : (
-                <Text style={styles.error}>{entry.error}</Text>
+                <Text testID={`resultError-${entry.n}`} style={styles.error}>
+                  {entry.error}
+                </Text>
               )}
             </View>
           </View>
@@ -174,7 +189,6 @@ function formatBytes(bytes: number) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fff' },
   content: { padding: 16, gap: 8 },
   h: { fontSize: 14, fontWeight: '600', marginTop: 12 },
   row: { flexDirection: 'row', gap: 8 },

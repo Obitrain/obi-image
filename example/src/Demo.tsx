@@ -2,7 +2,6 @@ import { useState } from 'react';
 import {
   FlatList,
   Pressable,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
@@ -10,6 +9,8 @@ import {
 } from 'react-native';
 import { Image, prefetch } from '@obitrain/react-native-image';
 import { Button } from './App';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { screenStyle } from './screen';
 
 export const ASSET =
   'https://s3.fr-par.scw.cloud/obitrain.shared/e2e-tests/image.jpeg';
@@ -27,7 +28,7 @@ export function Demo({ onBack }: { onBack: () => void }) {
 
   if (showList) {
     return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={screenStyle}>
         <Button testID="back" label="Back" onPress={() => setShowList(false)} />
         <FlatList
           testID="recycleList"
@@ -55,8 +56,8 @@ export function Demo({ onBack }: { onBack: () => void }) {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.content}>
+    <SafeAreaView style={screenStyle}>
+      <ScrollView testID="demoScroll" contentContainerStyle={styles.content}>
         <Button testID="back" label="Back" onPress={onBack} />
 
         <Text style={styles.h}>1. Network 70×50 cover (decode-to-size)</Text>
@@ -148,7 +149,6 @@ export function Demo({ onBack }: { onBack: () => void }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fff' },
   content: { padding: 16, gap: 8 },
   h: { fontSize: 14, fontWeight: '600', marginTop: 12 },
   row: { flexDirection: 'row', gap: 12 },

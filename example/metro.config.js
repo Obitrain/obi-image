@@ -16,7 +16,7 @@ const config = withMetroConfig(getDefaultConfig(__dirname), {
   conditions: ['obitrain-react-native-image-source'],
 });
 
-// HEIC sample for the transcode screen
-config.resolver.assetExts.push('heic');
+// HEIC sample as .bin: Android release builds reject .heic drawables, a non-image extension ships it as a raw resource.
+config.resolver.assetExts.push('bin');
 
 module.exports = config;

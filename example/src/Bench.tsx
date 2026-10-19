@@ -2,7 +2,6 @@ import { memo, useEffect, useRef, useState } from 'react';
 import {
   FlatList,
   Image as RNImage,
-  SafeAreaView,
   StyleSheet,
   Text,
   View,
@@ -13,6 +12,8 @@ import FastImage from '@d11/react-native-fast-image';
 import { Image } from '@obitrain/react-native-image';
 import { Button } from './App';
 import { ASSET } from './Demo';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { screenStyle } from './screen';
 
 export type BenchVariant = 'rn' | 'fast' | 'obi';
 export type BenchMode = 'thumb' | 'card' | 'classic';
@@ -156,7 +157,7 @@ export function Bench({
     };
   }, [cached, mode, onComplete, rowHeight, variant]);
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={screenStyle}>
       <View style={styles.header}>
         {progressLabel && <Text>{progressLabel}</Text>}
         <Button testID="back" label="Back" onPress={onBack} />
@@ -209,7 +210,6 @@ export function Bench({
   );
 }
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fff' },
   header: { gap: 8, padding: 12 },
   title: { fontSize: 14, fontWeight: '600' },
   note: { fontSize: 12, color: '#666' },
