@@ -40,8 +40,7 @@ class HybridImageView @DoNotStrip constructor(val context: ThemedReactContext) :
   // Props arrive as one batch; load once per batch.
   override fun afterUpdate() {
     view.scaleType = scaleType(resizeMode ?: NativeResizeMode.COVER)
-    // 0 = no tint (JS always sends the prop)
-    view.colorFilter = tintColor?.takeIf { it != 0.0 }?.let { PorterDuffColorFilter(it.toLong().toInt(), PorterDuff.Mode.SRC_IN) }
+    view.colorFilter = tintColor?.let { PorterDuffColorFilter(it.toLong().toInt(), PorterDuff.Mode.SRC_IN) }
     if (recyclingKey != lastRecyclingKey) {
       lastRecyclingKey = recyclingKey
       view.setImageDrawable(null)
@@ -61,7 +60,7 @@ class HybridImageView @DoNotStrip constructor(val context: ThemedReactContext) :
       val id = context.resources.getIdentifier(name, "drawable", context.packageName)
       if (id == 0) { onError?.invoke("Bundled image not found: $name"); return }
       id
-    } ?: uri?.takeIf { it.isNotEmpty() } ?: run { view.setImageDrawable(null); return }
+    } ?: uri ?: run { view.setImageDrawable(null); return }
     val request = ImageRequest.Builder(context)
       .data(data)
       .target(view)

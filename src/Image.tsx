@@ -57,11 +57,6 @@ function resolveSource(source: ImageSource): {
   return { uri: source?.uri };
 }
 
-// Fabric clears a removed prop by sending null, which Nitro rejects for optional props ("Value is null,
-// expected a String") and crashes the app. Every optional prop is therefore always sent: '' / 0 / no-op mean "none".
-const NO_LOAD = callback(() => {});
-const NO_ERROR = callback((_message: string) => {});
-
 function ImageImpl({
   source,
   resizeMode = 'cover',
@@ -90,30 +85,37 @@ function ImageImpl({
   );
   const { uri, resource } = useMemo(() => resolveSource(source), [source]);
   const tint = useMemo(
-    () => (tintColor == null ? 0 : ((processColor(tintColor) as number) ?? 0)),
+    () => (tintColor == null ? undefined : (processColor(tintColor) as number)),
     [tintColor]
   );
   const onLoadCb = useMemo(
-    () => (onLoad ? callback(onLoad) : NO_LOAD),
+    () => (onLoad ? callback(onLoad) : undefined),
     [onLoad]
   );
   const onErrorCb = useMemo(
-    () => (onError ? callback((_message: string) => onError()) : NO_ERROR),
+    () => (onError ? callback((_message: string) => onError()) : undefined),
     [onError]
   );
   const scale = PixelRatio.get();
+  // Fabric clears a removed prop by sending null, which Nitro rejects for optional props ("Value is null,
+  // expected a String") and crashes the app. Remount instead whenever a prop goes from set to unset.
+  // Drop once a Nitro release ships https://github.com/margelo/nitro/pull/1515 (issue #1184).
+  const presence = [uri, resource, tint, recyclingKey, onLoadCb, onErrorCb]
+    .map((value) => (value === undefined ? 0 : 1))
+    .join('');
 
   return (
     <View {...rest} style={[styles.container, style]} onLayout={onLayout}>
       <NativeImageView
+        key={presence}
         style={StyleSheet.absoluteFill}
-        uri={uri ?? ''}
-        resource={resource ?? ''}
+        uri={uri}
+        resource={resource}
         resizeMode={resizeMode}
         tintColor={tint}
         decodeWidth={Math.ceil(size.w * scale)}
         decodeHeight={Math.ceil(size.h * scale)}
-        recyclingKey={recyclingKey ?? ''}
+        recyclingKey={recyclingKey}
         onLoad={onLoadCb}
         onError={onErrorCb}
       />
