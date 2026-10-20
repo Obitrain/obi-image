@@ -30,6 +30,7 @@ final class HybridImageView: HybridObitrainImageViewSpec, RecyclableView {
 
   private var loadedKey: String? = nil
   private var lastRecyclingKey: String? = nil
+  private var loadGeneration = 0
 
 
   // Kingfisher's `kf` API is @MainActor; Nitro may set props off-main.
@@ -61,6 +62,8 @@ final class HybridImageView: HybridObitrainImageViewSpec, RecyclableView {
 
   @MainActor private func load(w: Int, h: Int) {
     view.kf.cancelDownloadTask()
+    loadGeneration += 1
+    let generation = loadGeneration
     if let name = resource, !name.isEmpty {
       view.image = UIImage(named: name)
       if view.image == nil { onError?("Bundled image not found: \(name)") } else { onLoad?() }
@@ -86,7 +89,8 @@ final class HybridImageView: HybridObitrainImageViewSpec, RecyclableView {
       ? .provider(LocalFileImageDataProvider(fileURL: url))
       : .network(url)
     view.kf.setImage(with: source, placeholder: nil, options: options) { [weak self] result in
-      guard let self else { return }
+      // A superseded or recycled load completes with a non-cancel error; only the latest load may report.
+      guard let self, self.loadGeneration == generation else { return }
       switch result {
       case .success:
         self.applyTint()
@@ -132,6 +136,7 @@ final class HybridImageView: HybridObitrainImageViewSpec, RecyclableView {
   // Reset everything: props are only re-applied on a recycled view if the next consumer sets them.
   func prepareForRecycle() {
     onMain { self.view.kf.cancelDownloadTask() }
+    loadGeneration += 1
     view.image = nil
     uri = nil; resource = nil; resizeMode = nil; tintColor = nil
     decodeWidth = nil; decodeHeight = nil; recyclingKey = nil; onError = nil; onLoad = nil
