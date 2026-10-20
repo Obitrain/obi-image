@@ -2525,7 +2525,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jest/globals@npm:30.5.2, @jest/globals@npm:^30.5.1":
+"@jest/globals@npm:30.5.2, @jest/globals@npm:^30.5.2":
   version: 30.5.2
   resolution: "@jest/globals@npm:30.5.2"
   dependencies:
@@ -2880,7 +2880,7 @@ __metadata:
     "@babel/preset-env": "npm:^7.29.7"
     "@babel/runtime": "npm:^7.29.10"
     "@d11/react-native-fast-image": "npm:8.13.0"
-    "@jest/globals": "npm:^30.5.1"
+    "@jest/globals": "npm:^30.5.2"
     "@react-native-camera-roll/camera-roll": "npm:7.10.2"
     "@types/react": "npm:^19.3.0"
     "@types/react-refresh": "npm:^0"
@@ -2889,7 +2889,7 @@ __metadata:
     expo: "npm:~58.0.14"
     expo-build-properties: "npm:~58.0.11"
     expo-dev-client: "npm:~58.0.14"
-    jest: "npm:^30.5.1"
+    jest: "npm:^30.5.2"
     react: "npm:19.3.0"
     react-native: "npm:0.88.0"
     react-native-builder-bob: "npm:^0.43.2"
@@ -8117,7 +8117,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest@npm:^30.5.1":
+"jest@npm:^30.5.2":
   version: 30.5.2
   resolution: "jest@npm:30.5.2"
   dependencies:
