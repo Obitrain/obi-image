@@ -29,10 +29,11 @@ describe('Transcode', () => {
   )('%s at %ipx gives %s', async (id, max, size) => {
     await element(by.id(`maxSize-${max}`)).tap();
     await element(by.id(`transcode-${id}`)).tap();
-    await waitFor(element(by.id(`resultSize-${run}`)))
+    // Counted before waiting so one timeout doesn't shift every later row.
+    const n = run++;
+    await waitFor(element(by.id(`resultSize-${n}`)))
       .toHaveText(size)
       .withTimeout(20000);
-    run++;
   });
 
   it('transcodes the latest library photo', async () => {
