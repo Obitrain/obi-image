@@ -2881,11 +2881,11 @@ __metadata:
     "@react-native-camera-roll/camera-roll": "npm:7.10.2"
     "@types/react": "npm:^19.3.0"
     "@types/react-refresh": "npm:^0"
-    babel-preset-expo: "npm:~58.0.22"
+    babel-preset-expo: "npm:~58.0.23"
     detox: "npm:20.51.4"
-    expo: "npm:~58.0.21"
+    expo: "npm:~58.0.22"
     expo-build-properties: "npm:~58.0.12"
-    expo-dev-client: "npm:~58.0.17"
+    expo-dev-client: "npm:~58.0.18"
     jest: "npm:^30.5.2"
     react: "npm:19.3.0"
     react-native: "npm:0.88.1"
@@ -4500,7 +4500,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-preset-expo@npm:~58.0.22, babel-preset-expo@npm:~58.0.23":
+"babel-preset-expo@npm:~58.0.23":
   version: 58.0.23
   resolution: "babel-preset-expo@npm:58.0.23"
   dependencies:
@@ -6197,7 +6197,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-dev-client@npm:~58.0.17":
+"expo-dev-client@npm:~58.0.18":
   version: 58.0.18
   resolution: "expo-dev-client@npm:58.0.18"
   dependencies:
@@ -6387,7 +6387,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo@npm:~58.0.21":
+"expo@npm:~58.0.22":
   version: 58.0.22
   resolution: "expo@npm:58.0.22"
   dependencies:
