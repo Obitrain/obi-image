@@ -2908,7 +2908,7 @@ __metadata:
     react-native: "npm:0.88.0"
     react-native-builder-bob: "npm:^0.44.1"
     react-native-nitro-modules: "npm:0.37.1"
-    turbo: "npm:^2.11.12"
+    turbo: "npm:^2.11.13"
     typescript: "npm:^6.0.3"
   peerDependencies:
     react: "*"
@@ -11163,7 +11163,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"turbo@npm:^2.11.12":
+"turbo@npm:^2.11.13":
   version: 2.11.13
   resolution: "turbo@npm:2.11.13"
   dependencies:
